@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Backoffice;
 
-use App\Services\AdminDashboardService;
+use App\Services\web\AdminDashboardService;
 use Livewire\Component;
 
 class Dashboard extends Component

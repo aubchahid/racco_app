@@ -85,32 +85,36 @@
                         <div class="col-xl-2">
                             <div class="mb-3">
                                 <label for="form-client-name" class="form-label">Client Nom : </label>
-                                <input type="text" class="form-control" id="form-client-name" wire:model="client_name">
+                                <input type="text" class="form-control" id="form-client-name"
+                                    wire:model="client_name">
                             </div>
                         </div>
                         <div class="col-xl-2">
                             <div class="mb-3">
                                 <label for="formrow-firstname-input" class="form-label">Sip : </label>
-                                <input type="text" class="form-control" id="formrow-firstname-input" wire:model="client_sip">
+                                <input type="text" class="form-control" id="formrow-firstname-input"
+                                    wire:model="client_sip">
                             </div>
                         </div>
                         <div class="col-xl-2">
                             <div class="mb-3">
-                                <label for="formrow-firstname-input" class="form-label">Status de client :</label>
-                                <select class="form-select" name="" id="">
-                                    @for ($i = 0; $i < 12; $i++)
-                                        <option value="">Technicien {{ $i }}</option>
-                                    @endfor
+                                <label for="formrow-status-input" class="form-label">Status de client :</label>
+                                <select class="form-select" wire:model.lazy="client_status">
+                                    <option value="">Tous</option>
+                                    <option value="Saisie">Saisie</option>
+                                    <option value="Blocage">Blocage</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-xl-2">
                             <div class="mb-3">
-                                <label for="formrow-firstname-input" class="form-label">Technicien :</label>
-                                <select class="form-select" name="" id="">
-                                    @for ($i = 0; $i < 12; $i++)
-                                        <option value="">Technicien {{ $i }}</option>
-                                    @endfor
+                                <label for="formrow-technicien-input" class="form-label">Technicien :</label>
+                                <select class="form-select" name="technicien" id="formrow-technicien-input"
+                                    wire:model="technicien">
+                                    <option value="" selected>-</option>
+                                    @foreach ($techniciens as $item)
+                                        <option value="{{ $item->id }}">{{ $item->user->getFullname() }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -158,8 +162,10 @@
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->city->name }}</td>
                                         <td>{{ $item->phone_no }}</td>
-                                        <td>-</td>
-                                        <td class="text-center"><i class="mdi mdi-circle {{ $item->getStatusColor($item->status) }}"></i> {{ $item->status }}
+                                        <td>{{ $item->getTechnicien() }}</td>
+                                        <td class="text-center"><i
+                                                class="mdi mdi-circle {{ $item->getStatusColor($item->status) }}"></i>
+                                            {{ $item->status }}
                                         </td>
                                         <td class="text-center">
                                             <button type="button" class="btn btn-primary btn-sm shadow-none"><i

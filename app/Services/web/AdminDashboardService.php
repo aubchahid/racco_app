@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Services\web;
 
 use App\Models\Affectation;
 use App\Models\Client;
@@ -17,8 +17,8 @@ class AdminDashboardService
             'total_affectations_new_client' => Affectation::whereHas('client', function($query){
                 $query->whereDate('created_at', today());
             })->count(),
-            'total_validations' => Affectation::where('status', 'validation')->count(),
-            'total_blocages' => Affectation::where('status', 'blocage')->count(),
+            'total_validations' => Client::where('status', 'validation')->count(),
+            'total_blocages' => Client::where('status', 'blocage')->count(),
             'total_planification_for_today' => Affectation::whereDate('planification_date', today())->count(),
             'total_pipe' => 54,
         ];

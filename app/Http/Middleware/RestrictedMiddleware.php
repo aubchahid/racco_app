@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 class RestrictedMiddleware
 {
-
     public function handle(Request $request, Closure $next, $role)
     {
         if (Auth::user()->roles->first()->name != $role) {

@@ -17,9 +17,6 @@ class CreateAffectationsTable extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->foreignId('client_id')->constrained('clients')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('lat');
-            $table->string('lng');
-            $table->foreignId('technicien_id')->constrained('techniciens')->onDelete('cascade')->onUpdate('cascade');
             $table->dateTime('planification_date')->nullable();
             $table->string('status');
             $table->timestamps();

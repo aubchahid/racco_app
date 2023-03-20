@@ -14,11 +14,14 @@ class Client extends Model
         'type',        
         'name',
         'address',
+        'lat',
+        'lng',
         'city_id',
         'plaque_id',
         'phone_no',
         'debit',        
         'sip',
+        'technicien_id',
         'status',
         'type',
         'created_at'
@@ -56,5 +59,18 @@ class Client extends Model
                 break;
         }
         return $data;
+    }
+
+    public function technicien(){
+        return $this->belongsTo(Technicien::class);
+    }
+
+    public function getTechnicien(){
+        $technicien = $this->technicien()->first();
+        if($technicien){
+            return $technicien->user->getFullname();
+        }else{
+            return 'Non affecté';
+        }
     }
 }

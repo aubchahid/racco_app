@@ -19,11 +19,14 @@ class CreateClientsTable extends Migration
             $table->string('type');
             $table->string('name');
             $table->string('address');
+            $table->string('lat');
+            $table->string('lng');
             $table->foreignId('city_id')->constrained('cities')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('plaque_id')->constrained('plaques')->onDelete('cascade')->onUpdate('cascade');
             $table->string('phone_no');
             $table->string('debit');
             $table->string('sip');
+            $table->foreignId('technicien_id')->nullable()->constrained('techniciens')->onDelete('cascade')->onUpdate('cascade');
             $table->string('status')->default('saisie');
             $table->timestamps();
             $table->softDeletes();
