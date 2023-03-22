@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
 
     protected $fillable = [
         'uuid',
@@ -23,6 +24,7 @@ class Client extends Model
         'sip',
         'technicien_id',
         'status',
+        'created_by',
         'type',
         'created_at'
     ];
@@ -39,20 +41,24 @@ class Client extends Model
         return $this->belongsTo(Plaque::class);
     }
 
-    public function getStatusColor($status){
-        $data = 'text-success';
-        switch ($status) {
+    public function createdBy(){
+        return $this->belongsTo(User::class,'created_by');
+    }
+
+    public function getStatusColor(){
+        $data = 'success';
+        switch ($this->status) {
             case 'Saisie':
-                $data = 'text-success';
+                $data = 'success';
                 break;
             case 'Blocage':
-                $data = 'text-danger';
+                $data = 'danger';
                 break;
             case 'En cours':
-                $data = 'text-warning';
+                $data = 'warning';
                 break;
             case 'Terminé':
-                $data = 'text-info';
+                $data = 'info';
                 break;
             default:
                 $data = 'text-dark';

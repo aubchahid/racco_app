@@ -41,7 +41,7 @@
                             <button class="btn btn-primary shadow-none" type="submit">
                                 <span wire:target="login" wire:loading.remove> Connexion</span>
                                 <span wire:target="login" wire:loading>
-                                    <span class="spinner-border spinner-border-sm" role="status"
+                                    <span class="spinner-border spinner-border-sm me-2" role="status"
                                         aria-hidden="true"></span>
                                     Chargement...
                                 </span>

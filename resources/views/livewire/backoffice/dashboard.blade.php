@@ -24,7 +24,7 @@
         </div>
         <div class="col-12 col-sm-6 col-xl-3">
             <div class="card widget-flat">
-                <a href="">
+                <a href="{{ route('admin.clients') }}">
                     <div class="card-body">
                         <div class="float-end">
                             <i class="uil-users-alt widget-icon"></i>
@@ -115,4 +115,46 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-12 col-xl-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="fw-bold">Clients par ville</h4>
+                </div>
+                <div class="card-body mb-2">
+                    {!! $chart->container() !!}
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-xl-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="fw-bold">Équipe par ville</h4>
+                </div>
+                <div class="card-body">
+                    {!! $chart2->container() !!}
+                </div>
+            </div>
+        </div>        
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="fw-bold">Statistique par soustraitant</h4>
+                </div>
+                <div class="card-body">
+                    {!! $chart3->container() !!}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @push('scripts')
+        <script src="{{ $chart->cdn() }}"></script>
+        {{ $chart->script() }}
+        <script src="{{ $chart2->cdn() }}"></script>
+        {{ $chart2->script() }}        
+        <script src="{{ $chart3->cdn() }}"></script>
+        {{ $chart3->script() }}
+    @endpush
 </div>

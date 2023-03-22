@@ -8,6 +8,7 @@ use App\Http\Livewire\Auth\LoginPage;
 use App\Http\Livewire\Auth\RecoverPasswordPage;
 use App\Http\Livewire\Backoffice\ClientsPage;
 use App\Http\Livewire\Backoffice\Dashboard;
+use App\Http\Livewire\Backoffice\ProfileClientPage;
 use App\Models\City;
 use App\Models\Client;
 use App\Models\Soustraitant;
@@ -17,6 +18,7 @@ use App\Services\web\LoginService;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
@@ -36,6 +38,7 @@ Route::any('/logout', function () {
 Route::middleware(['auth', 'role:admin'])->name('admin.')->prefix('admin')->group(function () {
     Route::any('/dashboard', Dashboard::class)->name('dashboard');
     Route::any('/clients', ClientsPage::class)->name('clients');
+    Route::any('/clients/{client}', ProfileClientPage::class)->name('clients.profile');
 });
 
 
@@ -51,7 +54,7 @@ Route::any('/create-user',function(){
         'password' => Hash::make('123456789'),    
     ]);
 
-    $user->assignRole('technicien');
+    $user->assignRole('admin');
 });
 
 Route::any('/create-soustraitant', function () {
@@ -63,7 +66,7 @@ Route::any('/create-soustraitant', function () {
 
 
 Route::any('/create', function (Faker $faker) {
-    for ($i = 0; $i < 35; $i++) {
+    for ($i = 0; $i < 10000; $i++) {
         Client::create([
             'uuid' => Str::uuid(),
             'type' => 'B2C',
@@ -71,13 +74,14 @@ Route::any('/create', function (Faker $faker) {
             'address' => $faker->address,
             'lat' => '33.95960'.$i,
             'lng' => '-6.872'.$i.'50',
-            'city_id' => 1,
+            'city_id' => rand(1,5),
             'plaque_id' => 1,
             'phone_no' => $faker->phoneNumber,
-            'debit' => '20MB',
-            'sip' => '054781' . $i . '54',
+            'debit' => '50MB',
+            'sip' => '0547' . rand(20001,30001),
             'status' => 'Saisie',
-            'created_at' => now()->subDays(rand(1, 15)),
+            'created_by' => Auth::user()->id,
+            'created_at' => now()->subDays(rand(0, 1000)),
         ]);
     }
 });
@@ -88,7 +92,7 @@ Route::any('/test-account', function () {
     for ($i = 0; $i < 10; $i++) {
         $user = User::create([
             'uuid' => Str::uuid(),
-            'first_name' => 'Technicien ' . $i++,
+            'first_name' => 'Technicien ' . $i,
             'last_name' => 'Account',
             'phone_no' => '0547815454',
             'email' => 't' . $i++ . '.account@neweracom.ma',
@@ -117,7 +121,8 @@ Route::any('/create-role', function () {
 Route::any('/create-city',function(){
     City::create([
         'uuid' => Str::uuid(),
-        'name' => 'Casablanca',
-        'code' => '01',        
+        'name' => 'Sale',
+        'code' => '5',        
     ]);
+   
 });

@@ -13,13 +13,25 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
 class LoginService
-{
+{    
     static public function login($email, $password)
     {
         if (Auth::attempt(['email' => $email, 'password' => $password], true)) {
             switch (Auth::user()->roles->first()->name) {
                 case 'admin':
                     return redirect()->route('admin.dashboard');
+                    break;
+                case 'superadmin':
+                    // TODO return redirect()->route('supervisor.dashboard');
+                    break;
+                case 'supervisor':
+                    // TODO return redirect()->route('supervisor.dashboard');
+                    break;
+                case 'soustraitant':
+                    // TODO return redirect()->route('supervisor.dashboard');
+                    break;
+                case 'controller':
+                    // TODO return redirect()->route('supervisor.dashboard');
                     break;
                 default:
                     return redirect()->route('login');
@@ -33,6 +45,18 @@ class LoginService
         switch ($role) {
             case 'admin':
                 return redirect()->route('admin.dashboard');
+                break;
+            case 'superadmin':
+                // TODO return redirect()->route('supervisor.dashboard');
+                break;
+            case 'supervisor':
+                // TODO return redirect()->route('supervisor.dashboard');
+                break;
+            case 'soustraitant':
+                // TODO return redirect()->route('supervisor.dashboard');
+                break;
+            case 'controller':
+                // TODO return redirect()->route('supervisor.dashboard');
                 break;
             default:
                 return redirect()->route('login');

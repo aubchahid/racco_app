@@ -27,7 +27,8 @@ class CreateClientsTable extends Migration
             $table->string('debit');
             $table->string('sip');
             $table->foreignId('technicien_id')->nullable()->constrained('techniciens')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('status')->default('saisie');
+            $table->string('status')->default('Saisie');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

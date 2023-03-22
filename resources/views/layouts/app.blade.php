@@ -99,18 +99,18 @@
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
                             <!-- item-->
                             <div class=" dropdown-header noti-title">
-                                <h6 class="text-overflow m-0">Welcome !</h6>
+                                <h6 class="text-overflow m-0">Bienvenu !</h6>
                             </div>
 
                             <!-- item-->
                             <a href="javascript:void(0);" class="dropdown-item">
-                                <i class="mdi mdi-account-circle me-1"></i>
-                                <span>My Account</span>
+                                <i class="uil-user me-1"></i>
+                                <span>Profil</span>
                             </a>
 
                             <!-- item-->
                             <a href="{{ route('logout') }}" class="dropdown-item">
-                                <i class="mdi mdi-logout me-1"></i>
+                                <i class="uil-exit me-1"></i>
                                 <span>Se deconnecter</span>
                             </a>
                         </div>
@@ -173,7 +173,7 @@
                             <i class="uil-users-alt"></i>
                             <span> Clients </span>
                         </a>
-                    </li>       
+                    </li>
 
                     <li class="side-nav-item">
                         <a href="apps-chat.html" class="side-nav-link fw-bold">
@@ -278,6 +278,14 @@
     <!-- END wrapper -->
 
     @livewireScripts
+    @stack('scripts')
+    <script>
+        window.livewire.on('success', () => {
+            $('#exportation-modal').modal('hide');
+            $('#delete-modal').modal('hide');
+            $('#delete-all-modal').modal('hide');
+        });
+    </script>
     <!-- Vendor js -->
     <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
 
