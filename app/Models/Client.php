@@ -12,7 +12,7 @@ class Client extends Model
 
     protected $fillable = [
         'uuid',
-        'type',        
+        'type',
         'name',
         'address',
         'lat',
@@ -20,7 +20,7 @@ class Client extends Model
         'city_id',
         'plaque_id',
         'phone_no',
-        'debit',        
+        'debit',
         'sip',
         'technicien_id',
         'status',
@@ -49,19 +49,22 @@ class Client extends Model
         $data = 'success';
         switch ($this->status) {
             case 'Saisie':
-                $data = 'success';
+                $data = 'primary';
                 break;
             case 'Blocage':
                 $data = 'danger';
                 break;
-            case 'En cours':
+            case 'Affecté':
                 $data = 'warning';
                 break;
-            case 'Terminé':
+            case 'Planifié':
                 $data = 'info';
                 break;
+            case 'Valide' :
+                $data = 'success';
+                break;
             default:
-                $data = 'text-dark';
+                $data = 'dark';
                 break;
         }
         return $data;

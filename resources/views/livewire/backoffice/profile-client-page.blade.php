@@ -10,7 +10,7 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="card bg-{{ $client->getStatusColor($client->status) }} shadow-none">
+            <div class="card bg-{{ $client->getStatusColor() }} shadow-none">
                 <div class="card-body profile-user-box">
                     <div class="row">
                         <div class="col-sm-12">
@@ -46,79 +46,79 @@
                 <div class="card-body">
                     <h4 class="header-title bg-light p-2 mt-0 mb-3"> <i class="uil-user me-2"></i> Informations du
                         client</h4>
-                    <hr>
                     <div class="row mb-2 align-middle">
-                        <label for="inputEmail3" class="col-5 col-form-label">SIP</label>
+                        <label for="inputEmail3" class="col-5 col-form-label fw-bold">SIP</label>
                         <div class="col-7">
                             <input type="text" readonly class="form-control-plaintext" id="example-static"
                                 value="{{ $client->sip }}">
                         </div>
                     </div>
                     <div class="row mb-2 align-middle">
-                        <label for="inputEmail3" class="col-5 col-form-label">Nom du client</label>
+                        <label for="inputEmail3" class="col-5 col-form-label fw-bold">Nom du client</label>
                         <div class="col-7">
                             <input type="text" readonly class="form-control-plaintext" id="example-static"
                                 value="{{ $client->name }}">
                         </div>
                     </div>
                     <div class="row mb-2 align-middle">
-                        <label for="inputEmail3" class="col-5 col-form-label">Adresse</label>
+                        <label for="inputEmail3" class="col-5 col-form-label fw-bold">Adresse</label>
                         <div class="col-7">
                             <input type="text" readonly class="form-control-plaintext" id="example-static"
                                 value="{{ $client->address }}">
                         </div>
                     </div>
                     <div class="row mb-2 align-middle">
-                        <label for="inputEmail3" class="col-5 col-form-label">Numero de telephone</label>
+                        <label for="inputEmail3" class="col-5 col-form-label fw-bold">Numéro de téléphone</label>
                         <div class="col-7">
                             <input type="text" readonly class="form-control-plaintext" id="example-static"
                                 value="{{ $client->phone_no }}">
                         </div>
                     </div>
                     <div class="row mb-2 align-middle">
-                        <label for="inputEmail3" class="col-5 col-form-label">Ville</label>
+                        <label for="inputEmail3" class="col-5 col-form-label fw-bold">Ville</label>
                         <div class="col-7">
                             <input type="text" readonly class="form-control-plaintext" id="example-static"
                                 value="{{ $client->city->name }}">
                         </div>
                     </div>
                     <div class="row mb-2 align-middle">
-                        <label for="inputEmail3" class="col-5 col-form-label">Type</label>
+                        <label for="inputEmail3" class="col-5 col-form-label fw-bold">Type</label>
                         <div class="col-7">
                             <input type="text" readonly class="form-control-plaintext" id="example-static"
                                 value="{{ $client->type }}">
                         </div>
                     </div>
                     <div class="row mb-2 align-middle">
-                        <label for="inputEmail3" class="col-5 col-form-label">Débit</label>
+                        <label for="inputEmail3" class="col-5 col-form-label fw-bold">Débit</label>
                         <div class="col-7">
                             <input type="text" readonly class="form-control-plaintext" id="example-static"
                                 value="{{ $client->debit }}">
                         </div>
                     </div>
                     <div class="row mb-2 align-middle">
-                        <label for="inputEmail3" class="col-5 col-form-label">Status du client</label>
+                        <label for="inputEmail3" class="col-5 col-form-label fw-bold">Status du client</label>
                         <div class="col-7">
                             <input type="text" readonly class="form-control-plaintext" id="example-static"
-                                value="{{ $client->debit }}">
+                                value="{{ $client->status }}">
                         </div>
                     </div>
                     <div class="row mb-2 align-middle">
-                        <label for="inputEmail3" class="col-5 col-form-label">Date de creation</label>
+                        <label for="inputEmail3" class="col-5 col-form-label fw-bold">Date de création</label>
                         <div class="col-7">
                             <input type="text" readonly class="form-control-plaintext" id="example-static"
                                 value="{{ $client->created_at->format('d-m-Y H:i:s') }}">
                         </div>
                     </div>
                     <div class="row mb-2 align-middle">
-                        <label for="inputEmail3" class="col-5 col-form-label">Date de modification</label>
+                        <label for="inputEmail3" class="col-5 col-form-label fw-bold">Date de la dernière mise à
+                            jour</label>
                         <div class="col-7">
                             <input type="text" readonly class="form-control-plaintext" id="example-static"
                                 value="{{ $client->updated_at->format('d-m-Y H:i:s') }}">
                         </div>
                     </div>
                     <div class="row mb-2 align-middle">
-                        <label for="inputEmail3" class="col-5 col-form-label">Créé par</label>
+                        <label for="inputEmail3" class="col-5 col-form-label fw-bold">Créé par</label>
                         <div class="col-7">
                             <input type="text" readonly class="form-control-plaintext" id="example-static"
                                 value="{{ $client->createdBy->getFullname() }}">
@@ -131,31 +131,33 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title bg-light p-2 mt-0 mb-3"> <i class="uil-chart me-2"></i> Status</h4>
-                    <hr>
                     <div class="timeline-alt pb-0">
-                        <div class="timeline-item">
-                            <i class=" bg-success-lighten text-success timeline-icon"></i>
-                            <div class="timeline-item-info">
-                                <h5 class="mt-0 mb-1">Client Affecte</h5>
-                                <p class="font-14"><i class="uil-user"></i> Technicien : Alae Ramzi <span
-                                        class="ms-2 font-12"> <i class="uil-clock"></i> 12-02-2023 12:45 </span>
-                                </p>
-                                <p class="text-muted mt-2 mb-0 pb-3"></p>
+                        @if (count($client->affectations))
+                            @foreach ($client->affectations[0]->history as $item)
+                                <div class="timeline-item">
+                                    <i
+                                        class="bg-{{ $item->getStatusColor() }}-lighten text-{{ $item->getStatusColor() }} timeline-icon"></i>
+                                    <div class="timeline-item-info">
+                                        <h5 class="mt-0 mb-1">{{ $item->status }} </h5>
+                                        <p class="font-14"><i class="uil-user"></i> Technicien :
+                                            {{ $item->technicien->user->getFullname() }} <span class="ms-2 font-12">
+                                                <i class="uil-clock"></i>
+                                                {{ $item->created_at->format('d-m-Y H:i:s') }}
+                                            </span>
+                                        </p>
+                                        <p class="text-muted mt-2 mb-0 pb-3"></p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="text-center">
+                                <h1><i class="uil-times-circle"></i></h1>
+                                <h4>Il n'y a pas encore d'affectations.</h4>
                             </div>
-                        </div>
+                        @endif
 
-                        <div class="timeline-item">
-                            <i class=" bg-danger-lighten text-danger timeline-icon"></i>
-                            <div class="timeline-item-info">
-                                <h5 class="mt-0 mb-1">Client Affecte</h5>
-                                <p class="font-14"><i class="uil-user"></i> Technicien : Alae Ramzi <span
-                                        class="ms-2 font-12"> <i class="uil-clock"></i> 12-02-2023 12:45 </span>
-                                </p>
-                            </div>
-                        </div>
                     </div>
                     <h4 class="header-title bg-light p-2 mt-5 mb-3"> <i class="uil-file me-2"></i> Rapports</h4>
-                    <hr>
                     @for ($i = 0; $i < 3; $i++)
                         <div class="card mb-2 shadow-none border">
                             <div class="p-1">
@@ -189,7 +191,7 @@
                                 </div>
                             </div>
                         </div>
-                    @endfor                     
+                    @endfor
                 </div>
             </div>
         </div>

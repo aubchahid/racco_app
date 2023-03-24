@@ -51,7 +51,7 @@ Route::any('/create-user',function(){
         'last_name' => 'Account',
         'email' => 'b.account@neweracom.ma',
         'phone_no' => '0547815454',
-        'password' => Hash::make('123456789'),    
+        'password' => Hash::make('123456789'),
     ]);
 
     $user->assignRole('admin');
@@ -66,7 +66,7 @@ Route::any('/create-soustraitant', function () {
 
 
 Route::any('/create', function (Faker $faker) {
-    for ($i = 0; $i < 10000; $i++) {
+    for ($i = 0; $i < 1000; $i++) {
         Client::create([
             'uuid' => Str::uuid(),
             'type' => 'B2C',
@@ -78,7 +78,7 @@ Route::any('/create', function (Faker $faker) {
             'plaque_id' => 1,
             'phone_no' => $faker->phoneNumber,
             'debit' => '50MB',
-            'sip' => '0547' . rand(20001,30001),
+            'sip' => '0547' . rand(30002,40003),
             'status' => 'Saisie',
             'created_by' => Auth::user()->id,
             'created_at' => now()->subDays(rand(0, 1000)),
@@ -121,8 +121,39 @@ Route::any('/create-role', function () {
 Route::any('/create-city',function(){
     City::create([
         'uuid' => Str::uuid(),
-        'name' => 'Sale',
-        'code' => '5',        
+        'name' => 'Casablanca',
+        'code' => '02',
     ]);
-   
+    City::create([
+        'uuid' => Str::uuid(),
+        'name' => 'Casablanca',
+        'code' => '03',
+    ]);
+    City::create([
+        'uuid' => Str::uuid(),
+        'name' => 'Rabat',
+        'code' => '05',
+    ]);
+    City::create([
+        'uuid' => Str::uuid(),
+        'name' => 'Mohammedia',
+        'code' => '08',
+    ]);
+    City::create([
+        'uuid' => Str::uuid(),
+        'name' => 'Kenitra',
+        'code' => '11',
+    ]);
+
+    City::create([
+        'uuid' => Str::uuid(),
+        'name' => 'Agadir',
+        'code' => '12',
+    ]);
+
+    City::create([
+        'uuid' => Str::uuid(),
+        'name' => 'Berrchid',
+        'code' => '18',
+    ]);
 });

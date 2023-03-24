@@ -71,9 +71,11 @@
                         <button class="btn btn-warning btn-sm shadow-none"> <i class="uil-down-arrow me-2"></i> Importer
                             automatique
                         </button>
-                        <button class="btn btn-danger btn-sm shadow-none" data-bs-toggle="modal" data-bs-target="#delete-all-modal"> <i class="uil-trash me-2"></i> Supprimer
+                        <button class="btn btn-danger btn-sm shadow-none" data-bs-toggle="modal"
+                            data-bs-target="#delete-all-modal"> <i class="uil-trash me-2"></i> Supprimer
                         </button>
-                        <button class="btn btn-secondary btn-sm shadow-none" wire:click="deleteAll"> <i class="uil-label me-2"></i> Affecter
+                        <button class="btn btn-secondary btn-sm shadow-none" data-bs-toggle="modal"
+                            data-bs-target="#affecter-modal"> <i class="uil-label me-2"></i> Affecter
                         </button>
                     </div>
                 </div>
@@ -147,7 +149,7 @@
                                 <th class="text-center">Sip</th>
                                 <th>Adresse</th>
                                 <th>Nom du client</th>
-                                <th>Telephone</th>
+                                <th>Numéro de téléphone</th>
                                 <th>Technicien</th>
                                 <th class="text-center">Etat</th>
                                 <th class="text-center">Créé à</th>
@@ -155,44 +157,44 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if ($clients->count() != 0)
-                                @foreach ($clients as $item)
-                                    <tr class="align-middle">
-                                        <td class="text-center">
-                                            <input type="checkbox" class="form-check-input"  value="{{ $item->id }}" wire:model="deleteList">
-                                        </td>
-                                        <td class="text-center">{{ $item->sip }}</td>
-                                        <td>
-                                            <h5 class="font-14 my-1">{{ Str::limit($item->address, 30) }}</h5>
-                                            <span class="text-muted font-13">{{ $item->city->name }}</span>
-                                        </td>
-                                        <td>{{ $item->name }}</td>
-                                        <td>{{ $item->phone_no }}</td>
-                                        <td>{{ $item->technicien_first_name ?? '-' }}</td>
-                                        <td class="text-center">
-                                            <span class="badge badge-{{ $item->getStatusColor() }}-lighten p-1 ps-2 pe-2">{{ $item->status }}</span>
-                                        </td>
-                                        <td class="text-center">
-                                            {{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y') }}
-                                        </td>
-                                        <td class="text-center">
-                                            <a class="btn btn-primary btn-sm shadow-none"
-                                                href="{{ route('admin.clients.profile', [$item->id]) }}"><i
-                                                    class="uil-eye"></i> </a>
-                                            <button type="button" class="btn btn-warning btn-sm shadow-none"><i
-                                                    class="uil-pen"></i> </button>
-                                            <button type="button" class="btn btn-danger btn-sm shadow-none"
-                                                wire:click="$set('client_id',{{ $item->id }})"
-                                                data-bs-toggle="modal" data-bs-target="#delete-modal"><i
-                                                    class="uil-trash"></i> </button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @else
+                            @forelse ($clients as $client)
+                                <tr class="align-middle">
+                                    <td class="text-center">
+                                        <input type="checkbox" class="form-check-input" value="{{ $client->id }}"
+                                            wire:model="deleteList">
+                                    </td>
+                                    <td class="text-center">{{ $client->sip }}</td>
+                                    <td>
+                                        <h5 class="font-14 my-1">{{ Str::limit($client->address, 30) }}</h5>
+                                        <span class="text-muted font-13">{{ $client->city->name }}</span>
+                                    </td>
+                                    <td>{{ $client->name }}</td>
+                                    <td>{{ $client->phone_no }}</td>
+                                    <td>{{ $client->technicien_first_name ?? '-' }}</td>
+                                    <td class="text-center">
+                                        <span
+                                            class="badge badge-{{ $client->getStatusColor() }}-lighten p-1 ps-2 pe-2">{{ $client->status }}</span>
+                                    </td>
+                                    <td class="text-center">
+                                        {{ \Carbon\Carbon::parse($client->created_at)->format('d-m-Y') }}
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="btn btn-primary btn-sm shadow-none"
+                                            href="{{ route('admin.clients.profile', [$client->id]) }}"><i
+                                                class="uil-eye"></i> </a>
+                                        <button type="button" class="btn btn-warning btn-sm shadow-none"
+                                            wire:click="setClient({{ $client->id }})"data-bs-toggle="modal"
+                                            data-bs-target="#edit-modal"><i class="uil-pen"></i> </button>
+                                        <button type="button" class="btn btn-danger btn-sm shadow-none"
+                                            wire:click="$set('client_id',{{ $client->id }})" data-bs-toggle="modal"
+                                            data-bs-target="#delete-modal"><i class="uil-trash"></i> </button>
+                                    </td>
+                                </tr>
+                            @empty
                                 <tr>
                                     <td colspan="8" class="text-center">Aucun client trouvé</td>
                                 </tr>
-                            @endif
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -204,25 +206,31 @@
     </div>
 
     <div id="importation-modal" class="modal fade" tabindex="-1" role="dialog"
-        aria-labelledby="importation-modalLabel" aria-hidden="true">
+        aria-labelledby="importation-modalLabel" aria-hidden="true" wire:ignore.self>
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="importation-modalLabel">Importer liste des clients</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="example-fileinput" class="form-label">Veuillez utiliser le modèle
-                            ci-dessous.</label>
-                        <input type="file" id="example-fileinput" class="form-control">
+                <form wire:submit.prevent="importManual">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="importation-modalLabel">Importer liste des clients</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                     </div>
-                    <a href="">Telecharger template</a>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light shadow-none" data-bs-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-primary shadow-none">Ajouter</button>
-                </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="example-fileinput" class="form-label">Veuillez utiliser le modèle
+                                ci-dessous.</label>
+                            <input type="file" id="example-fileinput" class="form-control" wire:model="file" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light shadow-none" data-bs-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary shadow-none">
+                            <span wire:loading.remove wire:target="importManual">Import</span>
+                            <span wire:loading wire:target="importManual">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Chargement...
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -307,6 +315,104 @@
                         <button type="submit" class="btn btn-danger shadow-none">
                             <span wire:loading.remove wire:target="deleteAll">Oui, supprimez-le</span>
                             <span wire:loading wire:target="deleteAll">
+                                <span class="spinner-border spinner-border-sm me-2" role="status"
+                                    aria-hidden="true"></span>
+                                Chargement...
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="importation-modalLabel"
+        aria-hidden="true" wire:ignore.self>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form wire:submit.prevent="edit">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="edit-modalLabel">Modifier un client</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-hidden="true"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingInput"
+                                wire:model.lazy="address" />
+                            <label for="floatingInput">Adresse de client</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="floatingInput"
+                                        wire:model.lazy="fullname" />
+                                    <label for="floatingInput">Nom du client</label>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="floatingInput"
+                                        wire:model.lazy="phone" />
+                                    <label for="floatingInput">Numero telephone</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingInput"
+                                wire:model.lazy="sip" />
+                            <label for="floatingInput">SIP</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light shadow-none"
+                            data-bs-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary shadow-none">
+                            <span wire:loading.remove wire:target="edit">Modifier</span>
+                            <span wire:loading wire:target="edit">
+                                <span class="spinner-border spinner-border-sm me-2" role="status"
+                                    aria-hidden="true"></span>
+                                Chargement...
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="affecter-modal" class="modal fade" tabindex="-1" role="dialog"
+        aria-labelledby="importation-modalLabel" aria-hidden="true" wire:ignore.self>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form wire:submit.prevent="affectation">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="importation-modalLabel">Affectation des clients</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-hidden="true"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-floating">
+                            <select class="form-select" id="floatingSelect"
+                                aria-label="Floating label select example" wire:model="technicien_affectation">
+                                <option selected>Sélectionnez un technicien</option>
+                                @foreach ($techniciens as $item)
+                                    <option value="{{ $item->id }}">{{ $item->user->getFullname() }}</option>
+                                @endforeach
+                            </select>
+                            <label for="floatingSelect">Technicien </label>
+                        </div>
+                        <div class="form-floating mt-3">
+                            <textarea class="form-control" wire:model="cause" id="floatingTextarea" style="height: 100px;"></textarea>
+                            <label for="floatingTextarea">Cause d'affectation </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light shadow-none"
+                            data-bs-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary shadow-none">
+                            <span wire:loading.remove wire:target="affectation">Affecter</span>
+                            <span wire:loading wire:target="affectation">
                                 <span class="spinner-border spinner-border-sm me-2" role="status"
                                     aria-hidden="true"></span>
                                 Chargement...

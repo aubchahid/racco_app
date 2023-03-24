@@ -22,6 +22,18 @@
 </head>
 
 <body>
+     <!-- Pre-loader -->
+     <div id="preloader">
+        <div id="status">
+            <div class="bouncing-loader">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+    <!-- End Preloader-->
+
     <!-- Begin page -->
     <div class="wrapper">
 
@@ -278,13 +290,34 @@
     <!-- END wrapper -->
 
     @livewireScripts
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @stack('scripts')
     <script>
         window.livewire.on('success', () => {
             $('#exportation-modal').modal('hide');
             $('#delete-modal').modal('hide');
             $('#delete-all-modal').modal('hide');
+            $('#affecter-modal').modal('hide');
+            $('#edit-modal').modal('hide');
+            $('#importation-modal').modal('hide');
         });
+        window.addEventListener('contentChanged', e => {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 15000,
+                timerProgressBar: false,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+            Toast.fire({
+                icon: 'success',
+                title: event.detail.item,
+            })
+        })
     </script>
     <!-- Vendor js -->
     <script src="{{ asset('assets/js/vendor.min.js') }}"></script>

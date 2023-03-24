@@ -82,7 +82,7 @@
                         <div class="float-end">
                             <i class="uil-times-circle widget-icon"></i>
                         </div>
-                        <h5 class="text-muted fw-bold mt-0" title="Blocages">Blocages</h5>
+                        <h5 class="text-muted fw-bold mt-0" title="Blocages du jour">Blocages du jour</h5>
                         <h3 class="mt-3 mb-1">{{ $kpisData['total_blocages'] }}</h3>
                     </div>
                 </a>
@@ -136,7 +136,7 @@
                     {!! $chart2->container() !!}
                 </div>
             </div>
-        </div>        
+        </div>
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
@@ -153,7 +153,7 @@
         <script src="{{ $chart->cdn() }}"></script>
         {{ $chart->script() }}
         <script src="{{ $chart2->cdn() }}"></script>
-        {{ $chart2->script() }}        
+        {{ $chart2->script() }}
         <script src="{{ $chart3->cdn() }}"></script>
         {{ $chart3->script() }}
     @endpush
