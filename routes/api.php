@@ -14,6 +14,58 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Auth routes
+|--------------------------------------------------------------------------
+|
+|*/
+
+
+Route::post('/loginApi', 'App\Http\Controllers\API\AuthController@loginApi');
+Route::post('/registerApi', 'App\Http\Controllers\API\AuthController@registerpi');
+
+/*
+|
+*/
+/*
+|--------------------------------------------------------------------------
+| User routes
+|--------------------------------------------------------------------------
+|
+|*/
+
+
+Route::post('/updateDeviseKey', 'App\Http\Controllers\API\UserController@updateDeviseKey');
+
+/*
+|
+*/
+/*
+|
+*/
+/*
+|--------------------------------------------------------------------------
+| Client routes
+|--------------------------------------------------------------------------
+|
+|*/
+
+
+
+Route::get('/getClients', 'App\Http\Controllers\API\ClientController@getClients');
+
+/*
+|
+*/
+
+
+Route::get('/getAffectation', 'App\Http\Controllers\API\AffectationController@getAffectation');
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
