@@ -10,12 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class RestrictedMiddleware
 {
-
     public function handle(Request $request, Closure $next, $role)
     {
-        if (Auth::user()->roles->first()->name != $role) {
-            abort(403, 'Unauthorized action.');
-        }
+        abort_if(Auth::user()->roles->first()->name != $role, 403, 'Unauthorized action.');
 
         return $next($request);
     }

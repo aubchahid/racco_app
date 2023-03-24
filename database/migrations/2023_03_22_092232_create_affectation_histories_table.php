@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAffectationsTable extends Migration
+class CreateAffectationHistoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateAffectationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('affectations', function (Blueprint $table) {
+        Schema::create('affectation_histories', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique();
-            $table->foreignId('client_id')->constrained('clients')->onDelete('cascade')->onUpdate('cascade');
-            $table->dateTime('planification_date')->nullable();
+            $table->foreignId('affectation_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('technicien_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->string('cause')->nullable();
             $table->string('status');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -31,6 +30,6 @@ class CreateAffectationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('affectations');
+        Schema::dropIfExists('affectation_histories');
     }
 }

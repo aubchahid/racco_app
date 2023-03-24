@@ -24,7 +24,7 @@
         </div>
         <div class="col-12 col-sm-6 col-xl-3">
             <div class="card widget-flat">
-                <a href="">
+                <a href="{{ route('admin.clients') }}">
                     <div class="card-body">
                         <div class="float-end">
                             <i class="uil-users-alt widget-icon"></i>
@@ -82,7 +82,7 @@
                         <div class="float-end">
                             <i class="uil-times-circle widget-icon"></i>
                         </div>
-                        <h5 class="text-muted fw-bold mt-0" title="Blocages">Blocages</h5>
+                        <h5 class="text-muted fw-bold mt-0" title="Blocages du jour">Blocages du jour</h5>
                         <h3 class="mt-3 mb-1">{{ $kpisData['total_blocages'] }}</h3>
                     </div>
                 </a>
@@ -113,6 +113,48 @@
                     </div>
                 </a>
             </div>
-        </div>       
+        </div>
     </div>
+
+    <div class="row">
+        <div class="col-12 col-xl-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="fw-bold">Clients par ville</h4>
+                </div>
+                <div class="card-body mb-2">
+                    {!! $chart->container() !!}
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-xl-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="fw-bold">Équipe par ville</h4>
+                </div>
+                <div class="card-body">
+                    {!! $chart2->container() !!}
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="fw-bold">Statistique par soustraitant</h4>
+                </div>
+                <div class="card-body">
+                    {!! $chart3->container() !!}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @push('scripts')
+        <script src="{{ $chart->cdn() }}"></script>
+        {{ $chart->script() }}
+        <script src="{{ $chart2->cdn() }}"></script>
+        {{ $chart2->script() }}
+        <script src="{{ $chart3->cdn() }}"></script>
+        {{ $chart3->script() }}
+    @endpush
 </div>

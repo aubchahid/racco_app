@@ -2,10 +2,10 @@
     <div class="row justify-content-center">
         <div class="col-xxl-4 col-lg-5">
             <div class="card">
-                <div class="card-body p-4">
-                    <div class="text-center mb-4">
-                        <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo" height="36">
-                    </div>
+                <div class="card-header py-4 text-center bg-dark">
+                    <img src="{{ asset('assets/images/logo.png') }}" alt="logo" height="22">
+                </div>
+                <div class="card-body p-4">                   
                     <div class="text-center w-100 m-auto">
                         <h4 class="text-dark-50 text-center pb-0 fw-bold">Se connecter</h4>
                         <p class="text-muted mb-4">Saisissez votre adresse e-mail et votre mot de passe pour accéder à
@@ -26,7 +26,7 @@
                                 placeholder="Entrez votre adresse email" wire:model.lazy="email">
                         </div>
                         <div class="mb-3">
-                            <a href="pages-recoverpw.html" class="text-muted float-end"><small>Mot de passe
+                            <a href="{{ route('forget-password') }}" class="text-muted float-end"><small>Mot de passe
                                     oublié?</small></a>
                             <label for="password" class="form-label">Mot de passe</label>
                             <div class="input-group input-group-merge">
@@ -41,7 +41,7 @@
                             <button class="btn btn-primary shadow-none" type="submit">
                                 <span wire:target="login" wire:loading.remove> Connexion</span>
                                 <span wire:target="login" wire:loading>
-                                    <span class="spinner-border spinner-border-sm" role="status"
+                                    <span class="spinner-border spinner-border-sm me-2" role="status"
                                         aria-hidden="true"></span>
                                     Chargement...
                                 </span>

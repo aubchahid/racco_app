@@ -22,6 +22,18 @@
 </head>
 
 <body>
+     <!-- Pre-loader -->
+     <div id="preloader">
+        <div id="status">
+            <div class="bouncing-loader">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+    <!-- End Preloader-->
+
     <!-- Begin page -->
     <div class="wrapper">
 
@@ -99,18 +111,18 @@
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
                             <!-- item-->
                             <div class=" dropdown-header noti-title">
-                                <h6 class="text-overflow m-0">Welcome !</h6>
+                                <h6 class="text-overflow m-0">Bienvenu !</h6>
                             </div>
 
                             <!-- item-->
                             <a href="javascript:void(0);" class="dropdown-item">
-                                <i class="mdi mdi-account-circle me-1"></i>
-                                <span>My Account</span>
+                                <i class="uil-user me-1"></i>
+                                <span>Profil</span>
                             </a>
 
                             <!-- item-->
                             <a href="{{ route('logout') }}" class="dropdown-item">
-                                <i class="mdi mdi-logout me-1"></i>
+                                <i class="uil-exit me-1"></i>
                                 <span>Se deconnecter</span>
                             </a>
                         </div>
@@ -173,7 +185,7 @@
                             <i class="uil-users-alt"></i>
                             <span> Clients </span>
                         </a>
-                    </li>       
+                    </li>
 
                     <li class="side-nav-item">
                         <a href="apps-chat.html" class="side-nav-link fw-bold">
@@ -278,6 +290,35 @@
     <!-- END wrapper -->
 
     @livewireScripts
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @stack('scripts')
+    <script>
+        window.livewire.on('success', () => {
+            $('#exportation-modal').modal('hide');
+            $('#delete-modal').modal('hide');
+            $('#delete-all-modal').modal('hide');
+            $('#affecter-modal').modal('hide');
+            $('#edit-modal').modal('hide');
+            $('#importation-modal').modal('hide');
+        });
+        window.addEventListener('contentChanged', e => {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 15000,
+                timerProgressBar: false,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+            Toast.fire({
+                icon: 'success',
+                title: event.detail.item,
+            })
+        })
+    </script>
     <!-- Vendor js -->
     <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
 

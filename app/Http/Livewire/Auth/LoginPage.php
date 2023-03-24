@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Livewire\Auth;
 
-use App\Services\LoginService;
+use App\Services\web\LoginService;
 use Livewire\Component;
 
 class LoginPage extends Component
