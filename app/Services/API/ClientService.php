@@ -8,16 +8,23 @@ class ClientService
 {
     public function getClientApi()
     {
-        $client = Client::where("status","active")->get();
+        $client = Client::where("status","Saisie")->get();
         return  $client ;
     }
     
 
     public function getThecnincenAfectationCouteurApi($id)
     {
-        $count =  Client::where("status","active")->where("thecnicien_id",$id)->count();
+        $count =  Client::where("status","Saisie")->where("thecnicien_id",$id)->count();
         return $count; 
     }
+
+    public function getClientThecnicienApi($id)
+    {
+        $clients = Client::where("thecnicien_id",$id)->get();
+        return  $clients ;
+    }
+    
 
 
 

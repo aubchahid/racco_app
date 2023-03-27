@@ -25,5 +25,13 @@ class ClientController extends Controller
         return response()->json(['Clients' => $client], 200);
 
     }
+    public function getClientsThecnicien($id)
+    {
+
+        $clients =  $this->clientService->getClientThecnicienApi($id);
+        
+        return response()->json(['Clients' => $clients], 200);
+
+    }
 
 }
