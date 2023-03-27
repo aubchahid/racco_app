@@ -11,6 +11,7 @@ use App\Http\Livewire\Backoffice\Dashboard;
 use App\Http\Livewire\Backoffice\ProfileClientPage;
 use App\Models\City;
 use App\Models\Client;
+use App\Models\Plaque;
 use App\Models\Soustraitant;
 use App\Models\Technicien;
 use App\Models\User;
@@ -44,7 +45,7 @@ Route::middleware(['auth', 'role:admin'])->name('admin.')->prefix('admin')->grou
 
 
 // ? Route DEV
-Route::any('/create-user',function(){
+Route::any('/create-user', function () {
     $user = User::create([
         'uuid' => Str::uuid(),
         'first_name' => 'Backoffice',
@@ -72,13 +73,13 @@ Route::any('/create', function (Faker $faker) {
             'type' => 'B2C',
             'name' => $faker->name(),
             'address' => $faker->address,
-            'lat' => '33.95960'.$i,
-            'lng' => '-6.872'.$i.'50',
-            'city_id' => rand(1,5),
+            'lat' => '33.95960' . $i,
+            'lng' => '-6.872' . $i . '50',
+            'city_id' => rand(1, 5),
             'plaque_id' => 1,
             'phone_no' => $faker->phoneNumber,
             'debit' => '50MB',
-            'sip' => '0547' . rand(30002,40003),
+            'sip' => '0547' . rand(30002, 40003),
             'status' => 'Saisie',
             'created_by' => Auth::user()->id,
             'created_at' => now()->subDays(rand(0, 1000)),
@@ -118,42 +119,55 @@ Route::any('/create-role', function () {
 });
 
 
-Route::any('/create-city',function(){
-    City::create([
-        'uuid' => Str::uuid(),
-        'name' => 'Casablanca',
-        'code' => '02',
+Route::any('/create-city', function () {
+    Plaque::create([
+        'city_id' => 4,
+        'code_plaque' => '15.1.15',
+        'status' => 1,
     ]);
-    City::create([
-        'uuid' => Str::uuid(),
-        'name' => 'Casablanca',
-        'code' => '03',
+    Plaque::create([
+        'city_id' => 4,
+        'code_plaque' => '15.1.17',
+        'status' => 1,
     ]);
-    City::create([
-        'uuid' => Str::uuid(),
-        'name' => 'Rabat',
-        'code' => '05',
+    Plaque::create([
+        'city_id' => 4,
+        'code_plaque' => '15.1.72',
+        'status' => 1,
     ]);
-    City::create([
-        'uuid' => Str::uuid(),
-        'name' => 'Mohammedia',
-        'code' => '08',
+    Plaque::create([
+        'city_id' => 4,
+        'code_plaque' => '15.1.79',
+        'status' => 1,
     ]);
-    City::create([
-        'uuid' => Str::uuid(),
-        'name' => 'Kenitra',
-        'code' => '11',
+    Plaque::create([
+        'city_id' => 4,
+        'code_plaque' => '15.1.89',
+        'status' => 1,
     ]);
-
-    City::create([
-        'uuid' => Str::uuid(),
-        'name' => 'Agadir',
-        'code' => '12',
+    Plaque::create([
+        'city_id' => 4,
+        'code_plaque' => '15.3.01',
+        'status' => 1,
     ]);
-
-    City::create([
-        'uuid' => Str::uuid(),
-        'name' => 'Berrchid',
-        'code' => '18',
+    Plaque::create([
+        'city_id' => 4,
+        'code_plaque' => '15.0.56',
+        'status' => 1,
+    ]);
+    Plaque::create([
+        'city_id' => 4,
+        'code_plaque' => '15.1.02',
+        'status' => 1,
+    ]);
+    Plaque::create([
+        'city_id' => 4,
+        'code_plaque' => '15.1.93',
+        'status' => 1,
+    ]);
+    Plaque::create([
+        'city_id' => 4,
+        'code_plaque' => '15.1.30',
+        'status' => 1,
     ]);
 });
