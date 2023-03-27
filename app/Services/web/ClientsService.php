@@ -48,13 +48,13 @@ class ClientsService
         preg_match('/Offre\s*:\s*(\d*)/', $content, $client_debit);
         preg_match('/Login SIP\s*:\s*(\d*)/', $content, $client_sip);
         preg_match('/Contact Client\s*:\s*(\d*)/', $content, $client_phone);
-        preg_match('/Latitude\s*:\s*(.*)\s*:\s*(\d*)/', $content, $client_lat);
-        preg_match('/Longitude\s*:\s*(.*)/', $content, $client_lng);
         preg_match('/CODE\s*(.{7})/', $content, $plaque);
         preg_match('/CODE\s*(.{2})/', $content, $city);
 
-        $city_id = City::where('code', $city[1])->first()->id;
-        $plaque_id = Plaque::where('code_plaque', $plaque[1])->first()->id;
+        dd($plaque);
+
+       /*  $city_id = City::where('code', $city[1])->first();
+        $plaque_id = Plaque::where('code_plaque', $plaque[1])->first();
 
         $data = [
             'name' => $client_fullname[1],
@@ -63,10 +63,10 @@ class ClientsService
             'lat' => $client_lat[1],
             'lng' => $client_lng[1],
             'sip' => $client_sip[1],
-            'plaque' => $plaque_id,
-            'city' => $city_id,
+            'plaque' => $plaque_id->id,
+            'city' => $city_id->id,
             'phone' => $client_phone[1],
         ];
-        return $data;
+        return $data; */
     }
 }
