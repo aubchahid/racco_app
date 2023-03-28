@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
-use App\Providers\RouteServiceProvider;
 use App\Services\web\LoginService;
 use Closure;
 use Illuminate\Http\Request;

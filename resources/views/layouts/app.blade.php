@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Neweracom - {{ $title }}</title>
+    <title>Neweraconnect - {{ $title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Ayoub chahid" name="author" />
 
@@ -18,12 +18,16 @@
 
     <!-- Icons css -->
     <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
     @livewireStyles
 </head>
 
 <body>
-     <!-- Pre-loader -->
-     <div id="preloader">
+    <!-- Pre-loader -->
+    <div id="preloader">
         <div id="status">
             <div class="bouncing-loader">
                 <div></div>
@@ -156,7 +160,8 @@
             </a>
 
             <!-- Sidebar Hover Menu Toggle Button -->
-            <div class="button-sm-hover" data-bs-toggle="tooltip" data-bs-placement="right" title="Show Full Sidebar">
+            <div class="button-sm-hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="Show Full Sidebar">
                 <i class="ri-checkbox-blank-circle-line align-middle"></i>
             </div>
 
@@ -187,12 +192,6 @@
                         </a>
                     </li>
 
-                    <li class="side-nav-item">
-                        <a href="apps-chat.html" class="side-nav-link fw-bold">
-                            <i class="uil-window-restore"></i>
-                            <span> Canvas </span>
-                        </a>
-                    </li>
 
                     <li class="side-nav-item">
                         <a data-bs-toggle="collapse" href="#sidebarTasks" aria-expanded="false"
@@ -204,18 +203,11 @@
                         <div class="collapse" id="sidebarTasks">
                             <ul class="side-nav-second-level">
                                 <li>
-                                    <a href="#">Toutes les affectations</a>
+                                    <a href="{{ route('admin.affectations') }}">Toutes les affectations</a>
                                 </li>
                                 <li>
-                                    <a href="#">Planifications</a>
+                                    <a href="{{ route('admin.affectations.map') }}">Map</a>
                                 </li>
-                                <li>
-                                    <a href="apps-kanban.html">Map</a>
-                                </li>
-                                <li>
-                                    <a href="apps-tasks-details.html">Plaque technicien</a>
-                                </li>
-
                             </ul>
                         </div>
                     </li>

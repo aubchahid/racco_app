@@ -1,9 +1,8 @@
 <div class="container-fluid">
-
     <div class="row">
         <div class="col-12">
             <div class="page-title-box">
-                <h4 class="page-title">Clients</h4>
+                <h4 class="page-title">Affectations</h4>
             </div>
         </div>
     </div>
@@ -16,8 +15,8 @@
                     <div class="float-end">
                         <i class="uil-envelope-add widget-icon"></i>
                     </div>
-                    <h5 class="text-muted fw-bold mt-0" title="Clients du jour">Clients du jour</h5>
-                    <h3 class="mt-3 mb-1">{{ $data['clientsOfTheDay'] }}</h3>
+                    <h5 class="text-muted fw-bold mt-0" title="Affectation du jour">Affectation du jour</h5>
+                    <h3 class="mt-3 mb-1">{{ $data['affectationsOfTheDay'] }}</h3>
                 </div>
             </div>
         </div>
@@ -27,8 +26,8 @@
                     <div class="float-end">
                         <i class="uil-users-alt widget-icon"></i>
                     </div>
-                    <h5 class="text-muted fw-bold mt-0" title="Total Clients">Total Clients</h5>
-                    <h3 class="mt-3 mb-1">{{ $data['allClients'] }}</h3>
+                    <h5 class="text-muted fw-bold mt-0" title="Total Affectation">Total Affectation</h5>
+                    <h3 class="mt-3 mb-1">{{ $data['totalAffectations'] }}</h3>
                 </div>
             </div>
         </div>
@@ -38,8 +37,8 @@
                     <div class="float-end">
                         <i class="uil-users-alt widget-icon"></i>
                     </div>
-                    <h5 class="text-muted fw-bold mt-0" title="Clients B2B">Clients B2B</h5>
-                    <h3 class="mt-3 mb-1">{{ $data['clientsB2B'] }}</h3>
+                    <h5 class="text-muted fw-bold mt-0" title="Declarations">Declarations</h5>
+                    <h3 class="mt-3 mb-1">{{ $data['totalDeclaration'] }}</h3>
                 </div>
             </div>
         </div>
@@ -49,8 +48,8 @@
                     <div class="float-end">
                         <i class="uil-users-alt widget-icon"></i>
                     </div>
-                    <h5 class="text-muted fw-bold mt-0" title="Clients B2C">Clients B2C</h5>
-                    <h3 class="mt-3 mb-1">{{ $data['clientsB2C'] }}</h3>
+                    <h5 class="text-muted fw-bold mt-0" title="Clients Restant">Clients Restant</h5>
+                    <h3 class="mt-3 mb-1">{{ $data['totalNoAffecte'] }}</h3>
                 </div>
             </div>
         </div>
@@ -64,12 +63,6 @@
                     <div class="ms-auto">
                         <button class="btn btn-success btn-sm shadow-none" data-bs-toggle="modal"
                             data-bs-target="#exportation-modal"> <i class="uil-export me-2"></i> Exproter
-                        </button>
-                        <button class="btn btn-info btn-sm shadow-none" data-bs-toggle="modal"
-                            data-bs-target="#importation-modal"> <i class="uil-down-arrow me-2"></i> Importer
-                        </button>
-                        <button class="btn btn-warning btn-sm shadow-none"> <i class="uil-down-arrow me-2"></i> Importer
-                            automatique
                         </button>
                         <button class="btn btn-danger btn-sm shadow-none" data-bs-toggle="modal"
                             data-bs-target="#delete-all-modal"> <i class="uil-trash me-2"></i> Supprimer
@@ -99,12 +92,12 @@
                             <div class="form-floating">
                                 <select class="form-select" id="floatingSelect" wire:model="client_status">
                                     <option value="" selected>Tous</option>
-                                    <option value="Saisie">Saisie</option>
-                                    <option value="Affecté">Affecté</option>
-                                    <option value="Déclaré">Déclaré</option>
-                                    <option value="Validée">Validée</option>
+                                    <option value="En cours">En cours</option>
+                                    <option value="Planifié">Planifié</option>
+                                    <option value="Bloqué">Bloqué</option>
+                                    <option value="Terminé">Terminé</option>
                                 </select>
-                                <label for="floatingSelect">Statut du client</label>
+                                <label for="floatingSelect">Statut d'affectation</label>
                             </div>
                         </div>
                         <div class="col-xl-2">
@@ -121,14 +114,14 @@
                         <div class="col-xl-2">
                             <div class="form-floating">
                                 <input type="date" class="form-control" id="floatingInput" placeholder=""
-                                    wire:model="start_date" />
+                                    wire:model="start_date" value="{{ $start_date }}" />
                                 <label for="floatingInput">Du</label>
                             </div>
                         </div>
                         <div class="col-xl-2">
                             <div class="form-floating">
                                 <input type="date" class="form-control" id="floatingInput" placeholder=""
-                                    wire:model="end_date" />
+                                    wire:model="end_date" value="{{ $start_date }}" />
                                 <label for="floatingInput">Au</label>
                             </div>
                         </div>
@@ -149,7 +142,6 @@
                                 <th class="text-center">Sip</th>
                                 <th>Adresse</th>
                                 <th>Nom du client</th>
-                                <th>Numéro de téléphone</th>
                                 <th>Technicien</th>
                                 <th class="text-center">Etat</th>
                                 <th class="text-center">Créé à</th>
@@ -157,83 +149,60 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($clients as $client)
+                            @forelse ($affectations as $affectation)
                                 <tr class="align-middle">
                                     <td class="text-center">
-                                        <input type="checkbox" class="form-check-input" value="{{ $client->id }}"
-                                            wire:model="deleteList">
+                                        <input type="checkbox" class="form-check-input"
+                                            value="{{ $affectation->id }}" wire:model="deleteList">
                                     </td>
-                                    <td class="text-center">{{ $client->sip }}</td>
+                                    <td class="text-center">{{ $affectation->client->sip }}</td>
                                     <td>
-                                        <h5 class="font-14 my-1">{{ Str::limit($client->address, 30) }}</h5>
-                                        <span class="text-muted font-13">{{ $client->city->name }}</span>
+                                        <h5 class="font-14 my-1">{{ Str::limit($affectation->client->address, 30) }}
+                                        </h5>
+                                        <span class="text-muted font-13">{{ $affectation->client->city->name }}</span>
                                     </td>
-                                    <td>{{ $client->name }}</td>
-                                    <td>{{ $client->phone_no }}</td>
-                                    <td>{{ $client->getTechnicien() }}</td>
+                                    <td>
+                                        <h5 class="font-14 my-1">{{ $affectation->client->name }}</h5>
+                                        <span class="text-muted font-13">{{ $affectation->client->phone_no }}</span>
+                                    </td>
+                                    <td>
+                                        {{ $affectation->technicien->user->getFullname() }}
+                                    </td>
                                     <td class="text-center">
                                         <span
-                                            class="badge badge-{{ $client->getStatusColor() }}-lighten p-1 ps-2 pe-2">{{ $client->status }}</span>
+                                            class="badge badge-{{ $affectation->getStatusColor() }}-lighten p-1 ps-2 pe-2">{{ $affectation->status }}</span>
+
                                     </td>
                                     <td class="text-center">
-                                        {{ $client->created_at }}
+                                        {{ \Carbon\Carbon::parse($affectation->created_at)->format('d-m-Y') }}
                                     </td>
                                     <td class="text-center">
                                         <a class="btn btn-primary btn-sm shadow-none"
-                                            href="{{ route('admin.clients.profile', [$client->id]) }}"><i
-                                                class="uil-eye"></i> </a>
-                                        <button type="button" class="btn btn-warning btn-sm shadow-none"
-                                            wire:click="setClient({{ $client->id }})"data-bs-toggle="modal"
-                                            data-bs-target="#edit-modal"><i class="uil-pen"></i> </button>
+                                            href="{{ route('admin.clients.profile', [$affectation->client_id]) }}"><i
+                                                class="uil-eye"></i>
+                                        </a>
                                         <button type="button" class="btn btn-danger btn-sm shadow-none"
-                                            wire:click="$set('client_id',{{ $client->id }})" data-bs-toggle="modal"
-                                            data-bs-target="#delete-modal"><i class="uil-trash"></i> </button>
+                                            wire:click="$set('affectation_id',{{ $affectation->id }})"
+                                            data-bs-toggle="modal" data-bs-target="#delete-modal"><i
+                                                class="uil-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="9" class="text-center">Aucun client trouvé</td>
+                                    <td colspan="8" class="text-center">Aucun client trouvé</td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
                 <div class="col-12 mt-2 ps-4">
-                    {{ $clients->links() }}
+                    {{ $affectations->links() }}
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="importation-modal" class="modal fade" tabindex="-1" role="dialog"
-        aria-labelledby="importation-modalLabel" aria-hidden="true" wire:ignore.self>
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <form wire:submit.prevent="importManual">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="importation-modalLabel">Importer liste des clients</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="example-fileinput" class="form-label">Veuillez utiliser le modèle
-                                ci-dessous.</label>
-                            <input type="file" id="example-fileinput" class="form-control" wire:model="file" required>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-light shadow-none" data-bs-dismiss="modal">Fermer</button>
-                        <button type="submit" class="btn btn-primary shadow-none">
-                            <span wire:loading.remove wire:target="importManual">Import</span>
-                            <span wire:loading wire:target="importManual">
-                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                Chargement...
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
     <div id="exportation-modal" class="modal fade" tabindex="-1" role="dialog"
         aria-labelledby="importation-modalLabel" aria-hidden="true" wire:ignore.self>
@@ -272,12 +241,12 @@
             <div class="modal-content">
                 <form wire:submit.prevent="delete">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="importation-modalLabel">Supprimer un client</h4>
+                        <h4 class="modal-title" id="importation-modalLabel">Supprimer un affectation</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-hidden="true"></button>
                     </div>
                     <div class="modal-body">
-                        <p class="fw-bold f-16">Voulez-vous vraiment supprimer ce client ?</p>
+                        <p class="fw-bold f-16">Voulez-vous vraiment supprimer cet affectation ?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light shadow-none"
@@ -302,12 +271,12 @@
             <div class="modal-content">
                 <form wire:submit.prevent="deleteAll">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="importation-modalLabel">Supprimer des clients</h4>
+                        <h4 class="modal-title" id="importation-modalLabel">Supprimer des affectations</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-hidden="true"></button>
                     </div>
                     <div class="modal-body">
-                        <p class="fw-bold f-16">Voulez-vous vraiment supprimer les clients ?</p>
+                        <p class="fw-bold f-16">Voulez-vous vraiment supprimer les affectations ?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light shadow-none"
@@ -315,61 +284,6 @@
                         <button type="submit" class="btn btn-danger shadow-none">
                             <span wire:loading.remove wire:target="deleteAll">Oui, supprimez-le</span>
                             <span wire:loading wire:target="deleteAll">
-                                <span class="spinner-border spinner-border-sm me-2" role="status"
-                                    aria-hidden="true"></span>
-                                Chargement...
-                            </span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div id="edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="importation-modalLabel"
-        aria-hidden="true" wire:ignore.self>
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <form wire:submit.prevent="edit">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="edit-modalLabel">Modifier un client</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-hidden="true"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="floatingInput"
-                                wire:model.lazy="address" />
-                            <label for="floatingInput">Adresse de client</label>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInput"
-                                        wire:model.lazy="fullname" />
-                                    <label for="floatingInput">Nom du client</label>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInput"
-                                        wire:model.lazy="phone" />
-                                    <label for="floatingInput">Numero telephone</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="floatingInput"
-                                wire:model.lazy="sip" />
-                            <label for="floatingInput">SIP</label>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-light shadow-none"
-                            data-bs-dismiss="modal">Fermer</button>
-                        <button type="submit" class="btn btn-primary shadow-none">
-                            <span wire:loading.remove wire:target="edit">Modifier</span>
-                            <span wire:loading wire:target="edit">
                                 <span class="spinner-border spinner-border-sm me-2" role="status"
                                     aria-hidden="true"></span>
                                 Chargement...

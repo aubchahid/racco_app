@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'uuid',
@@ -29,38 +30,40 @@ class Client extends Model
         'created_at'
     ];
 
-    public function affectations(){
+    public function affectations()
+    {
         return $this->hasMany(Affectation::class);
     }
 
-    public function city(){
+    public function city()
+    {
         return $this->belongsTo(City::class);
     }
 
-    public function plaque(){
+    public function plaque()
+    {
         return $this->belongsTo(Plaque::class);
     }
 
-    public function createdBy(){
-        return $this->belongsTo(User::class,'created_by');
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function getStatusColor(){
+    public function getStatusColor()
+    {
         $data = 'success';
         switch ($this->status) {
             case 'Saisie':
                 $data = 'primary';
                 break;
-            case 'Blocage':
-                $data = 'danger';
-                break;
             case 'Affecté':
                 $data = 'warning';
                 break;
-            case 'Planifié':
+            case 'Declare':
                 $data = 'info';
                 break;
-            case 'Valide' :
+            case 'Valide':
                 $data = 'success';
                 break;
             default:
@@ -70,16 +73,18 @@ class Client extends Model
         return $data;
     }
 
-    public function technicien(){
+    public function technicien()
+    {
         return $this->belongsTo(Technicien::class);
     }
 
-    public function getTechnicien(){
+    public function getTechnicien()
+    {
         $technicien = $this->technicien()->first();
-        if($technicien){
+        if ($technicien) {
             return $technicien->user->getFullname();
-        }else{
-            return 'Non affecté';
+        } else {
+            return '-';
         }
     }
 }

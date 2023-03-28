@@ -121,7 +121,7 @@ class ClientsPage extends Component
             'file.required' => 'Le fichier est obligatoire',
         ]);
 
-        $data = Excel::import(new ClientsImport, $this->file);
+        Excel::import(new ClientsImport, $this->file);
         $this->file = null;
         $this->emit('success');
         $this->dispatchBrowserEvent('contentChanged', ['item' => 'Clients importés avec succès.']);

@@ -14,31 +14,34 @@ class ClientsService
 
     static public function getClients($client_name, $client_sip, $client_status, $technicien, $start_date, $end_date)
     {
-        $query = Client::with('city')->where('name', 'like', '%' . $client_name . '%')
-            ->where('sip', 'like', '%' . $client_sip . '%')
-            ->where('status', 'like', '%' . $client_status . '%');
-        if ($client_status != null) {
-            $query->where('status', $client_status);
-        }
-        if ($start_date != null) {
-            $query->whereBetween('created_at', [Carbon::parse($start_date)->startOfDay(), Carbon::parse($end_date)->endOfDay()]);
-        }
-        if ($technicien != null) {
-            $query->where('technicien_id', $technicien);
-        }
-        return $query->orderBy('created_at', 'desc');
+        return Client::with(['technicien.user','city'])
+        ->where(function ($q) use ($client_name) {
+            $q->where('name', 'like', '%' . $client_name . '%');
+        })
+        ->where(function ($q) use ($client_sip) {
+            $q->where('sip', 'like', '%' . $client_sip . '%');
+        })
+        ->when($client_status, function ($q, $client_status) {
+            $q->where('status', $client_status);
+        })
+        ->when($start_date && $end_date, function ($q) use ($start_date, $end_date) {
+            $q->whereBetween('created_at', [Carbon::parse($start_date)->startOfDay(), Carbon::parse($end_date)->endOfDay()]);
+        })
+        ->when($technicien, function ($q, $technicien) {
+            $q->where('technicien_id', $technicien);
+        })
+        ->orderByDesc('created_at');
     }
 
     static public function getClientsStatistic()
     {
         $clients = Client::query();
-        $data = [
+        return [
             'allClients' => $clients->count(),
             'clientsOfTheDay' => $clients->whereDate('created_at', today())->count(),
             'clientsB2B' => $clients->where('type', 'B2B')->count(),
             'clientsB2C' => $clients->where('type', 'B2C')->count(),
         ];
-        return $data;
     }
 
     static public function importsClients($content)
@@ -51,22 +54,19 @@ class ClientsService
         preg_match('/CODE\s*(.{7})/', $content, $plaque);
         preg_match('/CODE\s*(.{2})/', $content, $city);
 
-        dd($plaque);
 
-       /*  $city_id = City::where('code', $city[1])->first();
-        $plaque_id = Plaque::where('code_plaque', $plaque[1])->first();
+        $plaque = Plaque::where('code_plaque', $plaque[1])->first();
 
-        $data = [
+        return [
             'name' => $client_fullname[1],
             'address' => $client_address[1],
             'debit' => $client_debit[1],
-            'lat' => $client_lat[1],
-            'lng' => $client_lng[1],
+            'lat' => 0,
+            'lng' => 0,
             'sip' => $client_sip[1],
-            'plaque' => $plaque_id->id,
-            'city' => $city_id->id,
+            'plaque' => $plaque->id,
+            'city' => $plaque->city->id,
             'phone' => $client_phone[1],
         ];
-        return $data; */
     }
 }

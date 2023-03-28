@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Imports;
 
+use App\Enums\ClientStatusEnum;
 use App\Models\Client;
 use App\Services\web\ClientsService;
 use Illuminate\Support\Facades\Auth;
@@ -32,12 +33,12 @@ class ClientsImport implements ToModel, WithStartRow
             'address' => $data['address'],
             'lat' => $data['lat'],
             'lng' => $data['lng'],
-            'city_id' => 4,
-            'plaque_id' => 1,
+            'city_id' => $data['city'],
+            'plaque_id' => $data['plaque'],
             'debit' => $data['debit'] == 12 ? 20 : $data['debit'],
             'sip' => $data['sip'],
             'phone_no' => $data['phone'],
-            'status' => 'Saisie',
+            'status' => ClientStatusEnum::NEW,
             'created_by' => Auth::user()->id,
         ]);
     }

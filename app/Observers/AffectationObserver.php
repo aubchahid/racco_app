@@ -18,7 +18,8 @@ class AffectationObserver
         ]);
 
         Client::where('id',$affectation->client_id)->update([
-            'status' => 'Affecté'
+            'status' => 'Affecté',
+            'technicien_id' => $affectation->technicien_id,
         ]);
     }
 

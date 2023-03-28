@@ -130,7 +130,7 @@
         <div class="col-5">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title bg-light p-2 mt-0 mb-3"> <i class="uil-chart me-2"></i> Status</h4>
+                    <h4 class="header-title bg-light p-2 mt-0 mb-3"> <i class="uil-chart me-2"></i> Historique des affectationsnode</h4>
                     <div class="timeline-alt pb-0">
                         @if (count($client->affectations))
                             @foreach ($client->affectations[0]->history as $item)

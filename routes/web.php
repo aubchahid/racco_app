@@ -2,12 +2,16 @@
 
 declare(strict_types=1);
 
+use App\Enums\ClientStatusEnum;
 use App\Http\Livewire\Auth\CheckYourEmailPage;
 use App\Http\Livewire\Auth\ForgetPasswordPage;
 use App\Http\Livewire\Auth\LoginPage;
 use App\Http\Livewire\Auth\RecoverPasswordPage;
+use App\Http\Livewire\Backoffice\AffectationsMapPage;
+use App\Http\Livewire\Backoffice\AffectationsPage;
 use App\Http\Livewire\Backoffice\ClientsPage;
 use App\Http\Livewire\Backoffice\Dashboard;
+use App\Http\Livewire\Backoffice\PlannedAffectationPage;
 use App\Http\Livewire\Backoffice\ProfileClientPage;
 use App\Models\City;
 use App\Models\Client;
@@ -40,6 +44,8 @@ Route::middleware(['auth', 'role:admin'])->name('admin.')->prefix('admin')->grou
     Route::any('/dashboard', Dashboard::class)->name('dashboard');
     Route::any('/clients', ClientsPage::class)->name('clients');
     Route::any('/clients/{client}', ProfileClientPage::class)->name('clients.profile');
+    Route::any('/affectations/', AffectationsPage::class)->name('affectations');
+    Route::any('/affectations/map', AffectationsMapPage::class)->name('affectations.map');
 });
 
 
@@ -68,6 +74,8 @@ Route::any('/create-soustraitant', function () {
 
 Route::any('/create', function (Faker $faker) {
     for ($i = 0; $i < 1000; $i++) {
+
+        $p = rand(2, 108);
         Client::create([
             'uuid' => Str::uuid(),
             'type' => 'B2C',
@@ -75,12 +83,12 @@ Route::any('/create', function (Faker $faker) {
             'address' => $faker->address,
             'lat' => '33.95960' . $i,
             'lng' => '-6.872' . $i . '50',
-            'city_id' => rand(1, 5),
-            'plaque_id' => 1,
+            'city_id' => Plaque::find($p)->city->id,
+            'plaque_id' => Plaque::find($p)->id,
             'phone_no' => $faker->phoneNumber,
             'debit' => '50MB',
-            'sip' => '0547' . rand(30002, 40003),
-            'status' => 'Saisie',
+            'sip' => '0547' . rand(30000, 40000),
+
             'created_by' => Auth::user()->id,
             'created_at' => now()->subDays(rand(0, 1000)),
         ]);
@@ -120,54 +128,19 @@ Route::any('/create-role', function () {
 
 
 Route::any('/create-city', function () {
-    Plaque::create([
-        'city_id' => 4,
-        'code_plaque' => '15.1.15',
-        'status' => 1,
+    City::create([
+        'uuid' => Str::uuid(),
+        'name' => 'Casablanca',
+        'code' => '02',
     ]);
-    Plaque::create([
-        'city_id' => 4,
-        'code_plaque' => '15.1.17',
-        'status' => 1,
+    City::create([
+        'uuid' => Str::uuid(),
+        'name' => 'Casablanca',
+        'code' => '03',
     ]);
-    Plaque::create([
-        'city_id' => 4,
-        'code_plaque' => '15.1.72',
-        'status' => 1,
-    ]);
-    Plaque::create([
-        'city_id' => 4,
-        'code_plaque' => '15.1.79',
-        'status' => 1,
-    ]);
-    Plaque::create([
-        'city_id' => 4,
-        'code_plaque' => '15.1.89',
-        'status' => 1,
-    ]);
-    Plaque::create([
-        'city_id' => 4,
-        'code_plaque' => '15.3.01',
-        'status' => 1,
-    ]);
-    Plaque::create([
-        'city_id' => 4,
-        'code_plaque' => '15.0.56',
-        'status' => 1,
-    ]);
-    Plaque::create([
-        'city_id' => 4,
-        'code_plaque' => '15.1.02',
-        'status' => 1,
-    ]);
-    Plaque::create([
-        'city_id' => 4,
-        'code_plaque' => '15.1.93',
-        'status' => 1,
-    ]);
-    Plaque::create([
-        'city_id' => 4,
-        'code_plaque' => '15.1.30',
-        'status' => 1,
+    City::create([
+        'uuid' => Str::uuid(),
+        'name' => 'Casablanca',
+        'code' => '02',
     ]);
 });

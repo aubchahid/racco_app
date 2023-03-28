@@ -33,5 +33,26 @@ class Affectation extends Model
         return $this->belongsTo(Technicien::class);
     }
 
-    
+    public function getStatusColor()
+    {
+        $data = 'success';
+        switch ($this->status) {
+            case 'En cours':
+                $data = 'primary';
+                break;
+            case 'Planifié':
+                $data = 'warning';
+                break;
+            case 'Bloqué':
+                $data = 'info';
+                break;
+            case 'Terminé':
+                $data = 'success';
+                break;
+            default:
+                $data = 'dark';
+                break;
+        }
+        return $data;
+    }
 }

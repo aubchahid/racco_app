@@ -16,4 +16,9 @@ class Plaque extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
 }
