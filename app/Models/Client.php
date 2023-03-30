@@ -63,7 +63,7 @@ class Client extends Model
             case 'Declare':
                 $data = 'info';
                 break;
-            case 'Valide':
+            case 'Validée':
                 $data = 'success';
                 break;
             default:
@@ -87,4 +87,6 @@ class Client extends Model
             return '-';
         }
     }
+
+
 }

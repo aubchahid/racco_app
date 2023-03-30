@@ -12,7 +12,10 @@ use App\Http\Livewire\Backoffice\AffectationsPage;
 use App\Http\Livewire\Backoffice\ClientsPage;
 use App\Http\Livewire\Backoffice\Dashboard;
 use App\Http\Livewire\Backoffice\PlannedAffectationPage;
+use App\Http\Livewire\Backoffice\PlaquesPage;
 use App\Http\Livewire\Backoffice\ProfileClientPage;
+use App\Models\Affectation;
+use App\Models\Blocage;
 use App\Models\City;
 use App\Models\Client;
 use App\Models\Plaque;
@@ -46,6 +49,7 @@ Route::middleware(['auth', 'role:admin'])->name('admin.')->prefix('admin')->grou
     Route::any('/clients/{client}', ProfileClientPage::class)->name('clients.profile');
     Route::any('/affectations/', AffectationsPage::class)->name('affectations');
     Route::any('/affectations/map', AffectationsMapPage::class)->name('affectations.map');
+    Route::any('/plaques',PlaquesPage::class)->name('plaques');
 });
 
 
@@ -67,13 +71,13 @@ Route::any('/create-user', function () {
 Route::any('/create-soustraitant', function () {
     Soustraitant::create([
         'uuid' => Str::uuid(),
-        'name' => 'NeweraCom',
+        'name' => 'Optlink',
     ]);
 });
 
 
 Route::any('/create', function (Faker $faker) {
-    for ($i = 0; $i < 1000; $i++) {
+    for ($i = 0; $i < 72; $i++) {
 
         $p = rand(2, 108);
         Client::create([
@@ -87,10 +91,8 @@ Route::any('/create', function (Faker $faker) {
             'plaque_id' => Plaque::find($p)->id,
             'phone_no' => $faker->phoneNumber,
             'debit' => '50MB',
-            'sip' => '0547' . rand(30000, 40000),
-
+            'sip' => '0547' . rand(70000, 80000),
             'created_by' => Auth::user()->id,
-            'created_at' => now()->subDays(rand(0, 1000)),
         ]);
     }
 });
@@ -98,7 +100,7 @@ Route::any('/create', function (Faker $faker) {
 
 Route::any('/test-account', function () {
 
-    for ($i = 0; $i < 10; $i++) {
+    for ($i = 10; $i < 20; $i++) {
         $user = User::create([
             'uuid' => Str::uuid(),
             'first_name' => 'Technicien ' . $i,
@@ -109,7 +111,7 @@ Route::any('/test-account', function () {
         ]);
 
         Technicien::create([
-            'soustraitant_id' => 1,
+            'soustraitant_id' => rand(1,2),
             'user_id' => $user->id,
             'planification_count' => 3,
         ]);
@@ -143,4 +145,25 @@ Route::any('/create-city', function () {
         'name' => 'Casablanca',
         'code' => '02',
     ]);
+});
+
+
+Route::any('/blocage',function(){
+    Blocage::create([
+        'uuid' => Str::uuid(),
+        'affectation_id' => 49,
+        'cause' => 'Le client n\'est pas disponible',
+    ]);
+
+    return 'Blocage Created';
+
+});
+
+Route::any('/planned-affectation/{id}',function($id){
+    Affectation::find($id)->update([
+        'status' => 'Planifié',
+        'planification_date' => now(),
+    ]);
+
+    return 'Done';
 });

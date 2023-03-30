@@ -9,7 +9,6 @@
     </div>
 
     <div class="row">
-
         <div class="col-12 col-sm-6 col-xl-3">
             <div class="card widget-flat">
                 <div class="card-body">
@@ -176,7 +175,7 @@
                                             class="badge badge-{{ $client->getStatusColor() }}-lighten p-1 ps-2 pe-2">{{ $client->status }}</span>
                                     </td>
                                     <td class="text-center">
-                                        {{ $client->created_at }}
+                                        {{ $client->created_at->format('d-m-Y H:i') }}
                                     </td>
                                     <td class="text-center">
                                         <a class="btn btn-primary btn-sm shadow-none"

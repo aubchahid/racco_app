@@ -130,7 +130,7 @@
         <div class="col-12 col-xl-6">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="fw-bold">Équipe par ville</h4>
+                    <h4 class="fw-bold">Équipe par ville ({{ now()->month.'-'.now()->year }}) </h4>
                 </div>
                 <div class="card-body">
                     {!! $chart2->container() !!}
@@ -140,7 +140,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="fw-bold">Statistique par soustraitant</h4>
+                    <h4 class="fw-bold">Statistique par soustraitant ({{ now()->month.'-'.now()->year }})</h4>
                 </div>
                 <div class="card-body">
                     {!! $chart3->container() !!}

@@ -2,6 +2,7 @@
 
 namespace App\Charts;
 
+use App\Models\Soustraitant;
 use ArielMejiaDev\LarapexCharts\LarapexChart;
 
 class StatisticForSoustraitantChart
@@ -15,11 +16,21 @@ class StatisticForSoustraitantChart
 
     public function build(): \ArielMejiaDev\LarapexCharts\BarChart
     {
-        return $this->chart->barChart()           
-            ->addData('San Francisco', [6, 9, 3, 4, 10, 8])
-            ->addData('Boston', [7, 3, 8, 2, 6, 4])
-            ->addData('Boston', [7, 3, 8, 2, 6, 4])
-            ->addData('Boston', [7, 3, 8, 2, 6, 4])
-            ->setXAxis(['January', 'February', 'March', 'April', 'May', 'June']);
+
+        $soustraitant = Soustraitant::withCount('affectations', 'declarations', 'blocages')->get();
+
+        foreach ($soustraitant as $soustraitant) {
+            $soustraitants[] = $soustraitant->name;
+            $affectations[] = $soustraitant->affectations_count;
+            $declarations[] = $soustraitant->declarations_count;
+            $blocages[] = $soustraitant->blocages_count ?? 0;
+        }
+
+        return $this->chart->barChart()
+            ->addData('Affectations', $affectations ?? [])
+            ->addData('Declarations', $declarations ?? [])
+            ->addData('Blocages', $blocages ?? [])
+            ->setXAxis($soustraitants ?? [])
+            ->setColors(['#0ACF97', '#727CF5', '#F36E89']);
     }
 }

@@ -18,10 +18,7 @@
 
     <!-- Icons css -->
     <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
-        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+
     @livewireStyles
 </head>
 
@@ -241,7 +238,7 @@
                     </li>
 
                     <li class="side-nav-item">
-                        <a href="#" class="side-nav-link fw-bold">
+                        <a href="{{ route('admin.plaques') }}" class="side-nav-link fw-bold">
                             <i class="uil-label"></i>
                             <span> Plaques </span>
                         </a>
@@ -281,9 +278,15 @@
     </div>
     <!-- END wrapper -->
 
+    @stack('scripts')
     @livewireScripts
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @stack('scripts')
+    <script>
+        var mymap = L.map('”mapid”', {
+            center: [51.505, -0.09],
+            zoom: 13
+        });
+    </script>
     <script>
         window.livewire.on('success', () => {
             $('#exportation-modal').modal('hide');

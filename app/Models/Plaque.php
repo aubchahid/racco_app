@@ -21,4 +21,14 @@ class Plaque extends Model
     {
         return $this->belongsTo(City::class);
     }
+
+    public function clients()
+    {
+        return $this->hasMany(Client::class);
+    }
+
+    public function techniciens()
+    {
+        return $this->hasMany(PlaqueTechnicien::class);
+    }
 }

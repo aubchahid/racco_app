@@ -44,7 +44,7 @@ class Affectation extends Model
                 $data = 'warning';
                 break;
             case 'Bloqué':
-                $data = 'info';
+                $data = 'danger';
                 break;
             case 'Terminé':
                 $data = 'success';

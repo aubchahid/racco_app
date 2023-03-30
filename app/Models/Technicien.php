@@ -21,4 +21,14 @@ class Technicien extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function soustraitant()
+    {
+        return $this->belongsTo(Soustraitant::class);
+    }
+
+    public function affectations()
+    {
+        return $this->hasMany(Affectation::class);
+    }
 }

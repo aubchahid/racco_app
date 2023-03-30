@@ -14,7 +14,7 @@ class ClientsService
 
     static public function getClients($client_name, $client_sip, $client_status, $technicien, $start_date, $end_date)
     {
-        return Client::with(['technicien.user','city'])
+        return Client::with(['technicien.user','city', 'technicien'])
         ->where(function ($q) use ($client_name) {
             $q->where('name', 'like', '%' . $client_name . '%');
         })

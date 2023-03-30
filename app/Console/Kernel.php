@@ -2,13 +2,15 @@
 
 namespace App\Console;
 
-use App\Models\Client;
+use App\Console\Commands\DeleteAffectation;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Support\Facades\DB;
 
 class Kernel extends ConsoleKernel
 {
+    protected $commands = [
+        DeleteAffectation::class,
+    ];
     /**
      * Define the application's command schedule.
      *
@@ -17,9 +19,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function(){
-            DB::table('clients')->update(['status' => 'Saisie']);
-        })->dailyAt('14:33');
+      $schedule->command('delete:affectations')->everyMinute();
     }
 
     /**

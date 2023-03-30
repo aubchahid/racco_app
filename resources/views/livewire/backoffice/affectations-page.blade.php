@@ -190,7 +190,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="text-center">Aucun client trouvé</td>
+                                    <td colspan="8" class="text-center">Aucun affectation trouvé</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -210,12 +210,12 @@
             <div class="modal-content">
                 <form wire:submit.prevent="export">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="importation-modalLabel">Exporter liste des clients</h4>
+                        <h4 class="modal-title" id="importation-modalLabel">Exporter liste des affectations</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-hidden="true"></button>
                     </div>
                     <div class="modal-body">
-                        <p class="fw-bold f-16">Êtes-vous sûr de vouloir exporter un liste des clients vers un fichier
+                        <p class="fw-bold f-16">Êtes-vous sûr de vouloir exporter un liste des affectations vers un fichier
                             Excel ?</p>
                     </div>
                     <div class="modal-footer">

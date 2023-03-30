@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Neweracom - {{ $title }}</title>
+    <title>Neweraconnect - {{ $title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Ayoub Chahid" name="author" />
 
@@ -21,7 +21,7 @@
     @livewireStyles
 </head>
 
-<body class="authentication-bg">
+<body>
     @php($dev = Config::get('app.author'))
     <!-- Pre-loader -->
     <div id="preloader">
