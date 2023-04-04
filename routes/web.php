@@ -46,16 +46,16 @@ Route::middleware(['auth', 'role:admin'])->name('admin.')->prefix('admin')->grou
 
 // ? Route DEV
 Route::any('/create-user', function () {
-    $user = User::create([
-        'uuid' => Str::uuid(),
-        'first_name' => 'Backoffice',
-        'last_name' => 'Account',
-        'email' => 'b.account@neweracom.ma',
-        'phone_no' => '0547815454',
-        'password' => Hash::make('123456789'),
-    ]);
-
-    $user->assignRole('admin');
+    // $user = User::create([
+    //     'uuid' => Str::uuid(),
+    //     'first_name' => 'Backoffice',
+    //     'last_name' => 'Account',
+    //     'email' => 'b.account@neweracom.ma',
+    //     'phone_no' => '0547815454',
+    //     'password' => Hash::make('123456789'),
+    // ]);
+Role::create(['name' => 'admin' ]);
+    User::find('1')->assignRole('admin');
 });
 
 Route::any('/create-soustraitant', function () {

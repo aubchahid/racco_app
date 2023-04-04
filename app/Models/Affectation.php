@@ -15,7 +15,7 @@ class Affectation extends Model
         'client_id',
         'technicien_id',
         'planification_date',
-        'status',
+        'status'
     ];
 
 

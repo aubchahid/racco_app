@@ -14,7 +14,7 @@ class AddColumnsToAffectations extends Migration
     public function up()
     {
         Schema::table('affectations', function (Blueprint $table) {
-            $table->foreignId('technicien_id')->nullable()->constrained('techniciens')->onDelete('cascade')->onUpdate('cascade');
+            // $table->foreignId('technicien_id')->nullable()->constrained('techniciens')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

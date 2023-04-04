@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Blocage extends Model
 {
     use HasFactory;
+
+
+    protected $fillable = [
+        'uuid',
+        'affectation_id',
+        'cause',
+        'justification',
+        'lat',
+        'lng'
+    ];
 }

@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Affectation;
+use App\Models\Blocage;
 use App\Observers\AffectationObserver;
+use App\Observers\BlocageObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -20,6 +22,7 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
             AffectationObserver::class,
+            BlocageObserver::class
         ],
     ];
 
@@ -31,5 +34,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Affectation::observe(AffectationObserver::class);
+        Blocage::observe(BlocageObserver::class);
     }
 }

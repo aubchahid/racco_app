@@ -22,7 +22,7 @@ class Client extends Model
         'phone_no',
         'debit',
         'sip',
-        'technicien_id',
+        'thecnicien_id',
         'status',
         'created_by',
         'type',

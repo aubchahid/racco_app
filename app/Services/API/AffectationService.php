@@ -17,4 +17,5 @@ class AffectationService
         $count = Technicien::where("id",1)->count();
         return  $count;
     }
+    
 }

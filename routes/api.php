@@ -64,6 +64,23 @@ Route::get('/getClientsThecnicien/{id}', [ClientController::class,'getClientsThe
 /*
 |
 */
+/*
+|--------------------------------------------------------------------------
+| Client blocage
+|--------------------------------------------------------------------------
+|
+|*/
+
+
+
+Route::post('/declarationBlocage', 'App\Http\Controllers\API\BlocageController@declarationBlocage');
+Route::post('/storeImageBlocage', 'App\Http\Controllers\API\BlocagePictureController@storeImageBlocage');
+// Route::get('/getClientThecnicien/{id}', 'App\Http\Controllers\API\ClientController@getClientThecnicien');
+
+
+/*
+|
+*/
 
 
 Route::get('/getAffectation', 'App\Http\Controllers\API\AffectationController@getAffectation');

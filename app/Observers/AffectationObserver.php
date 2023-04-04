@@ -11,14 +11,19 @@ class AffectationObserver
 
     public function created(Affectation $affectation)
     {
+
+
+        
         AffectationHistory::create([
             'affectation_id' => $affectation->id,
             'technicien_id' => $affectation->technicien_id,
-            'status' => $affectation->status,
+            'status' => $affectation->status
         ]);
 
-        Client::where('id',$affectation->client_id)->update([
-            'status' => 'Affecté'
+        Client::where('id',$affectation->client_id)->update([           
+            'status' => 'Affecté',
+            'technicien_id' => $affectation->technicien_id
+            
         ]);
     }
 

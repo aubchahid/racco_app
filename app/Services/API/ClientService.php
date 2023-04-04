@@ -15,13 +15,13 @@ class ClientService
 
     public function getThecnincenAfectationCouteurApi($id)
     {
-        $count =  Client::where("status","Saisie")->where("thecnicien_id",$id)->count();
+        $count =  Client::where("status","Saisie")->where("technicien_id",$id)->count();
         return $count; 
     }
 
     public function getClientThecnicienApi($id)
     {
-        $clients = Client::where("thecnicien_id",$id)->get();
+        $clients = Client::where("technicien_id",$id)->get();
         return  $clients ;
     }
     

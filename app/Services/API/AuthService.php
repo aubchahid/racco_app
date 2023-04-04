@@ -48,7 +48,6 @@ class AuthService
             $user->password = Hash::make($data['password']);
             $user->setRememberToken(Str::random(60));
             $user->save();
-
             Mail::to($data['email'])->send(new PasswordChanged($user));
             return Mail::failures() ? redirect()->back()->with('error', __('Une erreur est survenue lors de l\'envoi du mail')) : self::login($user->email, $data['password']);
         } else {
