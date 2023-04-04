@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services\web;
 
-use App\Models\City;
 use App\Models\Client;
 use App\Models\Plaque;
 use Carbon\Carbon;
@@ -14,7 +13,7 @@ class ClientsService
 
     static public function getClients($client_name, $client_sip, $client_status, $technicien, $start_date, $end_date)
     {
-        return Client::with(['technicien.user','city', 'technicien'])
+        return Client::with('city', 'technicien.user')
         ->where(function ($q) use ($client_name) {
             $q->where('name', 'like', '%' . $client_name . '%');
         })
@@ -39,8 +38,8 @@ class ClientsService
         return [
             'allClients' => $clients->count(),
             'clientsOfTheDay' => $clients->whereDate('created_at', today())->count(),
-            'clientsB2B' => $clients->where('type', 'B2B')->count(),
-            'clientsB2C' => $clients->where('type', 'B2C')->count(),
+            'clientsB2B' => Client::where('type','B2B')->count(),
+            'clientsB2C' => Client::where('type','B2C')->count(),
         ];
     }
 
@@ -56,6 +55,9 @@ class ClientsService
 
 
         $plaque = Plaque::where('code_plaque', $plaque[1])->first();
+
+        // TODO : check if the client already exists with SIP
+        // TODO : Check the lat and lng in Mapsurvey
 
         return [
             'name' => $client_fullname[1],

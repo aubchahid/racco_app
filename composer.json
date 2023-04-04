@@ -8,6 +8,7 @@
         "php": "^7.3|^8.0",
         "arielmejiadev/larapex-charts": "^5.2",
         "asantibanez/livewire-charts": "^2.5",
+        "berkayk/onesignal-laravel": "^2.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.75",

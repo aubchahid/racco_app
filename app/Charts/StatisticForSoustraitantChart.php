@@ -4,6 +4,7 @@ namespace App\Charts;
 
 use App\Models\Soustraitant;
 use ArielMejiaDev\LarapexCharts\LarapexChart;
+use Illuminate\Database\Eloquent\Builder;
 
 class StatisticForSoustraitantChart
 {
@@ -17,7 +18,7 @@ class StatisticForSoustraitantChart
     public function build(): \ArielMejiaDev\LarapexCharts\BarChart
     {
 
-        $soustraitant = Soustraitant::withCount('affectations', 'declarations', 'blocages')->get();
+        $soustraitant = Soustraitant::withCount('affectations')->get();
 
         foreach ($soustraitant as $soustraitant) {
             $soustraitants[] = $soustraitant->name;

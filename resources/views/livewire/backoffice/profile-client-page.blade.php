@@ -117,15 +117,6 @@
                                 value="{{ $client->updated_at->format('d-m-Y H:i:s') }}">
                         </div>
                     </div>
-                    @if ($client->affectations[0]->status == 'Planifié')
-                        <div class="row mb-2 align-middle">
-                            <label for="inputEmail3" class="col-5 col-form-label fw-bold">Date de planification</label>
-                            <div class="col-7">
-                                <input type="text" readonly class="form-control-plaintext" id="example-static"
-                                    value="{{ date('d-m-Y H:i',strtotime($client->affectations[0]->planification_date)) }}">
-                            </div>
-                        </div>
-                    @endif
                     <div class="row mb-2 align-middle">
                         <label for="inputEmail3" class="col-5 col-form-label fw-bold">Créé par</label>
                         <div class="col-7">

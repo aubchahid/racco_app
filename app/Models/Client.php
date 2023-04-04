@@ -77,16 +77,4 @@ class Client extends Model
     {
         return $this->belongsTo(Technicien::class);
     }
-
-    public function getTechnicien()
-    {
-        $technicien = $this->technicien()->first();
-        if ($technicien) {
-            return $technicien->user->getFullname();
-        } else {
-            return '-';
-        }
-    }
-
-
 }

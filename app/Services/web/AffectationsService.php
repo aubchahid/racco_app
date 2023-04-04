@@ -37,7 +37,7 @@ class AffectationsService
             ->orderByDesc('created_at');
     }
 
-  
+
 
     public static function getAffectationsStatistic(): array
     {
@@ -48,5 +48,11 @@ class AffectationsService
             'totalDeclaration' => Affectation::where('status', 'Declare')->count(),
             'totalNoAffecte' => Client::where('status', 'Saisie')->count(),
         ];
+    }
+
+    public static function attachUnique()
+    {
+
+
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Charts;
 
+use App\Models\Blocage;
 use ArielMejiaDev\LarapexCharts\LarapexChart;
+use Illuminate\Support\Facades\DB;
 
 class BlocageByCityChart
 {
@@ -13,10 +15,20 @@ class BlocageByCityChart
         $this->chart = $chart;
     }
 
-    public function build(): \ArielMejiaDev\LarapexCharts\BarChart
+    public function build(): \ArielMejiaDev\LarapexCharts\DonutChart
     {
-        return $this->chart->barChart()          
-            ->addData('San Francisco', [6, 9, 3, 4, 10, 8])
-            ->setXAxis(['January', 'February', 'March', 'April', 'May', 'June']);
+        $results = Blocage::select('cause', DB::raw('count(*) as count'))
+            ->groupBy('cause')
+            ->whereDate('created_at', now())
+            ->get();
+
+        foreach ($results as $value) {
+            $causes[] = $value->cause;
+            $data[] = $value->count;
+        }
+
+        return $this->chart->donutChart()
+            ->addData($data ?? [])
+            ->setLabels($causes ?? []);
     }
 }

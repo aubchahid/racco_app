@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Plaque extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
 
     protected $fillable = [
         'city_id',
@@ -29,6 +30,6 @@ class Plaque extends Model
 
     public function techniciens()
     {
-        return $this->hasMany(PlaqueTechnicien::class);
+        return $this->belongsToMany(Technicien::class, 'plaque_techniciens');
     }
 }

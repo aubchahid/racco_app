@@ -169,7 +169,7 @@
                                     </td>
                                     <td>{{ $client->name }}</td>
                                     <td>{{ $client->phone_no }}</td>
-                                    <td>{{ $client->getTechnicien() }}</td>
+                                    <td>{{ $client->technicien ? $client->technicien->user->getFullname() :  '-' }}</td>
                                     <td class="text-center">
                                         <span
                                             class="badge badge-{{ $client->getStatusColor() }}-lighten p-1 ps-2 pe-2">{{ $client->status }}</span>

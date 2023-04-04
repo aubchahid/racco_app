@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Enums\ClientStatusEnum;
 use App\Http\Livewire\Auth\CheckYourEmailPage;
 use App\Http\Livewire\Auth\ForgetPasswordPage;
 use App\Http\Livewire\Auth\LoginPage;
@@ -11,9 +10,11 @@ use App\Http\Livewire\Backoffice\AffectationsMapPage;
 use App\Http\Livewire\Backoffice\AffectationsPage;
 use App\Http\Livewire\Backoffice\ClientsPage;
 use App\Http\Livewire\Backoffice\Dashboard;
-use App\Http\Livewire\Backoffice\PlannedAffectationPage;
 use App\Http\Livewire\Backoffice\PlaquesPage;
 use App\Http\Livewire\Backoffice\ProfileClientPage;
+use App\Http\Livewire\Backoffice\ProfilePlaquePage;
+use App\Http\Livewire\Backoffice\ProfileSoustraitantPage;
+use App\Http\Livewire\Backoffice\SoustraitantPage;
 use App\Models\Affectation;
 use App\Models\Blocage;
 use App\Models\City;
@@ -47,9 +48,12 @@ Route::middleware(['auth', 'role:admin'])->name('admin.')->prefix('admin')->grou
     Route::any('/dashboard', Dashboard::class)->name('dashboard');
     Route::any('/clients', ClientsPage::class)->name('clients');
     Route::any('/clients/{client}', ProfileClientPage::class)->name('clients.profile');
-    Route::any('/affectations/', AffectationsPage::class)->name('affectations');
+    Route::any('/affectations', AffectationsPage::class)->name('affectations');
     Route::any('/affectations/map', AffectationsMapPage::class)->name('affectations.map');
     Route::any('/plaques',PlaquesPage::class)->name('plaques');
+    Route::any('/plaques/{plaque}',ProfilePlaquePage::class)->name('plaques.profile');
+    Route::any('/soustraitant',SoustraitantPage::class)->name('soustraitant');
+    Route::any('/soustraitant/profile/{soustraitant}',ProfileSoustraitantPage::class)->name('soustraitant.profile');
 });
 
 
@@ -77,9 +81,9 @@ Route::any('/create-soustraitant', function () {
 
 
 Route::any('/create', function (Faker $faker) {
-    for ($i = 0; $i < 72; $i++) {
+    for ($i = 0; $i < 74; $i++) {
 
-        $p = rand(2, 108);
+        $p = rand(1, 109);
         Client::create([
             'uuid' => Str::uuid(),
             'type' => 'B2C',
@@ -91,7 +95,7 @@ Route::any('/create', function (Faker $faker) {
             'plaque_id' => Plaque::find($p)->id,
             'phone_no' => $faker->phoneNumber,
             'debit' => '50MB',
-            'sip' => '0547' . rand(70000, 80000),
+            'sip' => '0547' . rand(885945, 985945),
             'created_by' => Auth::user()->id,
         ]);
     }

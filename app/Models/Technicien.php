@@ -31,4 +31,9 @@ class Technicien extends Model
     {
         return $this->hasMany(Affectation::class);
     }
+
+    public function plaques()
+    {
+        return $this->belongsToMany(Plaque::class, 'plaque_techniciens');
+    }
 }

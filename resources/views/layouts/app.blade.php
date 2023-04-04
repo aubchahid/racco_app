@@ -9,6 +9,7 @@
 
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('assets/images/logo-sm.png') }}">
+    @stack('styles')
 
     <!-- Theme Config Js -->
     <script src="{{ asset('assets/js/hyper-config.js') }}"></script>
@@ -18,7 +19,6 @@
 
     <!-- Icons css -->
     <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-
     @livewireStyles
 </head>
 
@@ -137,7 +137,7 @@
         <div class="leftside-menu">
 
             <!-- Brand Logo Light -->
-            <a href="index.html" class="logo logo-light">
+            <a href="#" class="logo logo-light">
                 <span class="logo-lg">
                     <img src="{{ asset('assets/images/logo.png') }}" alt="logo">
                 </span>
@@ -147,7 +147,7 @@
             </a>
 
             <!-- Brand Logo Dark -->
-            <a href="index.html" class="logo logo-dark">
+            <a href="#" class="logo logo-dark">
                 <span class="logo-lg">
                     <img src="{{ asset('assets/images/logo-dark.png') }}" alt="dark logo">
                 </span>
@@ -217,7 +217,7 @@
                     </li>
 
                     <li class="side-nav-item">
-                        <a href="apps-chat.html" class="side-nav-link fw-bold">
+                        <a href="{{ route('admin.soustraitant') }}" class="side-nav-link fw-bold">
                             <i class="uil-package"></i>
                             <span> Soustraitant </span>
                         </a>
@@ -295,6 +295,7 @@
             $('#affecter-modal').modal('hide');
             $('#edit-modal').modal('hide');
             $('#importation-modal').modal('hide');
+            $('#add-modal').modal('hide');
         });
         window.addEventListener('contentChanged', e => {
             const Toast = Swal.mixin({

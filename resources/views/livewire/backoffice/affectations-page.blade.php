@@ -15,7 +15,7 @@
                     <div class="float-end">
                         <i class="uil-envelope-add widget-icon"></i>
                     </div>
-                    <h5 class="text-muted fw-bold mt-0" title="Affectation du jour">Affectation du jour</h5>
+                    <h5 class="text-muted fw-bold mt-0" title="Affectations du jour">Affectations du jour</h5>
                     <h3 class="mt-3 mb-1">{{ $data['affectationsOfTheDay'] }}</h3>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                     <div class="float-end">
                         <i class="uil-users-alt widget-icon"></i>
                     </div>
-                    <h5 class="text-muted fw-bold mt-0" title="Total Affectation">Total Affectation</h5>
+                    <h5 class="text-muted fw-bold mt-0" title="Total Affectations">Total Affectations</h5>
                     <h3 class="mt-3 mb-1">{{ $data['totalAffectations'] }}</h3>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                     <div class="float-end">
                         <i class="uil-users-alt widget-icon"></i>
                     </div>
-                    <h5 class="text-muted fw-bold mt-0" title="Declarations">Declarations</h5>
+                    <h5 class="text-muted fw-bold mt-0" title="Total Déclarations">Total Déclarations</h5>
                     <h3 class="mt-3 mb-1">{{ $data['totalDeclaration'] }}</h3>
                 </div>
             </div>
