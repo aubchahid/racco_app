@@ -63,15 +63,14 @@
                     <div class="row mb-2 align-middle">
                         <label for="inputEmail3" class="col-5 col-form-label fw-bold">Adresse</label>
                         <div class="col-7">
-                            <input type="text" readonly class="form-control-plaintext" id="example-static"
-                                value="{{ $client->address }}">
+                            <p>{{ $client->address }}</p>
                         </div>
                     </div>
                     <div class="row mb-2 align-middle">
                         <label for="inputEmail3" class="col-5 col-form-label fw-bold">Numéro de téléphone</label>
                         <div class="col-7">
                             <input type="text" readonly class="form-control-plaintext" id="example-static"
-                                value="{{ $client->phone_no }}">
+                                value="{{ $client->returnPhoneNumber() }}">
                         </div>
                     </div>
                     <div class="row mb-2 align-middle">
@@ -92,7 +91,7 @@
                         <label for="inputEmail3" class="col-5 col-form-label fw-bold">Débit</label>
                         <div class="col-7">
                             <input type="text" readonly class="form-control-plaintext" id="example-static"
-                                value="{{ $client->debit }}">
+                                value="{{ $client->debit }} Méga">
                         </div>
                     </div>
                     <div class="row mb-2 align-middle">
@@ -133,29 +132,28 @@
                     <h4 class="header-title bg-light p-2 mt-0 mb-3"> <i class="uil-chart me-2"></i> Historique des
                         affectations</h4>
                     <div class="timeline-alt pb-0">
-                        @if (count($client->affectations))
-                            @foreach ($client->affectations [0]->history as $item)
-                                <div class="timeline-item">
-                                    <i
-                                        class="bg-{{ $item->getStatusColor() }}-lighten text-{{ $item->getStatusColor() }}  ri-bookmark-fill timeline-icon"></i>
-                                    <div class="timeline-item-info">
-                                        <h5 class="mt-0 mb-1">{{ $item->status }} <small> - {{ $item->status == 'Planifié' ? date('d-m-Y H:i',strtotime($item->affectation->planification_date)) : '' }}</small> </h5>
-                                        <p class="font-14"><i class="uil-user"></i> Technicien :
-                                            {{ $item->technicien->user->getFullname() }} <span class="ms-2 font-12">
-                                                <i class="uil-clock"></i>
-                                                {{ $item->created_at->format('d-m-Y H:i:s') }}
-                                            </span>
-                                        </p>
-                                        <p class="text-muted mt-2 mb-0 pb-3"></p>
-                                    </div>
+                        @forelse ($client->affectationsHistorique as $item)
+                            <div class="timeline-item">
+                                <i
+                                    class="bg-{{ $item->getStatusColor() }}-lighten text-{{ $item->getStatusColor() }} ri-bookmark-fill timeline-icon"></i>
+                                <div class="timeline-item-info">
+                                    <h5 class="mt-0 mb-1">{{ $item->status  }} <small>
+                                            {{ $item->status == 'Planifié' ? '- '. date('d-m-Y H:i', strtotime($item->affectation->planification_date)) : '' }}</small>
+                                    </h5>
+                                    <p class="font-14"><i class="uil-user"></i> Technicien :
+                                        {{ $item->technicien->user->getFullname() }} <span class="ms-2 font-12">
+                                            <i class="uil-clock"></i>
+                                            {{ $item->created_at->format('d-m-Y H:i:s') }}
+                                        </span>
+                                    </p>
                                 </div>
-                            @endforeach
-                        @else
+                            </div>
+                        @empty
                             <div class="text-center">
                                 <h1><i class="uil-times-circle"></i></h1>
                                 <h4>Il n'y a pas encore d'affectations.</h4>
                             </div>
-                        @endif
+                        @endforelse
 
                     </div>
                     <h4 class="header-title bg-light p-2 mt-5 mb-3"> <i class="uil-file me-2"></i> Rapports</h4>

@@ -16,10 +16,16 @@ class City extends Model
         'uuid',
         'name',
         'code',
+        'status',
     ];
 
     public function clients()
     {
         return $this->hasMany(Client::class);
+    }
+
+    public function plaques()
+    {
+        return $this->hasMany(Plaque::class);
     }
 }

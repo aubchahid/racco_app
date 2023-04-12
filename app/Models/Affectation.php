@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Affectation extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'uuid',
@@ -29,7 +29,8 @@ class Affectation extends Model
         return $this->hasMany(AffectationHistory::class);
     }
 
-    public function technicien(){
+    public function technicien()
+    {
         return $this->belongsTo(Technicien::class);
     }
 

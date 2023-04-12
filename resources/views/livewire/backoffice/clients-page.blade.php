@@ -144,7 +144,7 @@
                     <table class="table table-centered table-responsive mb-0">
                         <thead class="table-dark">
                             <tr>
-                                <th></th>
+                                <th class="text-center"></th>
                                 <th class="text-center">Sip</th>
                                 <th>Adresse</th>
                                 <th>Nom du client</th>
@@ -159,8 +159,10 @@
                             @forelse ($clients as $client)
                                 <tr class="align-middle">
                                     <td class="text-center">
-                                        <input type="checkbox" class="form-check-input" value="{{ $client->id }}"
-                                            wire:model="deleteList">
+                                        @if ($client->status === 'Saisie')
+                                            <input type="checkbox" class="form-check-input"
+                                                value="{{ $client->id }}" wire:model="selectedItems">
+                                        @endif
                                     </td>
                                     <td class="text-center">{{ $client->sip }}</td>
                                     <td>
@@ -168,8 +170,9 @@
                                         <span class="text-muted font-13">{{ $client->city->name }}</span>
                                     </td>
                                     <td>{{ $client->name }}</td>
-                                    <td>{{ $client->phone_no }}</td>
-                                    <td>{{ $client->technicien ? $client->technicien->user->getFullname() :  '-' }}</td>
+                                    <td>{{ $client->returnPhoneNumber() }}</td>
+                                    <td>{{ $client->technicien ? $client->technicien->user->getFullname() : '-' }}
+                                    </td>
                                     <td class="text-center">
                                         <span
                                             class="badge badge-{{ $client->getStatusColor() }}-lighten p-1 ps-2 pe-2">{{ $client->status }}</span>
@@ -211,22 +214,34 @@
                 <form wire:submit.prevent="importManual">
                     <div class="modal-header">
                         <h4 class="modal-title" id="importation-modalLabel">Importer liste des clients</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-hidden="true"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="example-fileinput" class="form-label">Veuillez utiliser le modèle
                                 ci-dessous.</label>
-                            <input type="file" id="example-fileinput" class="form-control" wire:model="file" required>
+                            <input type="file" id="example-fileinput" class="form-control" wire:model="file"
+                                required>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-light shadow-none" data-bs-dismiss="modal">Fermer</button>
-                        <button type="submit" class="btn btn-primary shadow-none">
-                            <span wire:loading.remove wire:target="importManual">Import</span>
-                            <span wire:loading wire:target="importManual">
-                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                Chargement...
+                        <button type="button" class="btn btn-light shadow-none"
+                            data-bs-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary shadow-none"
+                            {{ $file == null ? 'disabled' : '' }}>
+                            <span wire:target="file" wire:loading.remove>
+                                <span wire:loading.remove wire:target="importManual">Import</span>
+                                <span wire:loading wire:target="importManual">
+                                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true">
+                                    </span>
+                                    Chargement...
+                                </span>
+                            </span>
+                            <span wire:loading wire:target="file">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true">
+                                </span>
+                            </span>
                         </button>
                     </div>
                 </form>

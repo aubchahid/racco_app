@@ -18,7 +18,7 @@ class StatisticForSoustraitantChart
     public function build(): \ArielMejiaDev\LarapexCharts\BarChart
     {
 
-        $soustraitant = Soustraitant::withCount('affectations')->get();
+        $soustraitant = Soustraitant::withCount(['affectations'])->get();
 
         foreach ($soustraitant as $soustraitant) {
             $soustraitants[] = $soustraitant->name;

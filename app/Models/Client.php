@@ -35,6 +35,21 @@ class Client extends Model
         return $this->hasMany(Affectation::class);
     }
 
+    public function declarations()
+    {
+        return $this->hasManyThrough(Declaration::class, Affectation::class);
+    }
+
+    public function blocages()
+    {
+        return $this->hasManyThrough(Blocage::class, Affectation::class);
+    }
+
+    public function affectationsHistorique()
+    {
+        return $this->hasManyThrough(AffectationHistory::class,Affectation::class);
+    }
+
     public function city()
     {
         return $this->belongsTo(City::class);
@@ -48,6 +63,11 @@ class Client extends Model
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function technicien()
+    {
+        return $this->belongsTo(Technicien::class);
     }
 
     public function getStatusColor()
@@ -73,8 +93,9 @@ class Client extends Model
         return $data;
     }
 
-    public function technicien()
+    public function returnPhoneNumber()
     {
-        return $this->belongsTo(Technicien::class);
+        $input = $this->phone_no;
+        return substr($input, 0, 2) . ' ' . substr($input, 2, 2) . ' ' . substr($input, 4, 2) . ' ' . substr($input, 6, 2) . ' ' . substr($input, 8, 2);
     }
 }

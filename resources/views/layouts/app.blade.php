@@ -210,7 +210,7 @@
                     </li>
 
                     <li class="side-nav-item">
-                        <a href="apps-chat.html" class="side-nav-link fw-bold">
+                        <a href="{{ route('admin.routeurs') }}" class="side-nav-link fw-bold">
                             <i class="uil-technology"></i>
                             <span> Routeurs </span>
                         </a>
@@ -224,14 +224,14 @@
                     </li>
 
                     <li class="side-nav-item">
-                        <a href="#" class="side-nav-link fw-bold">
+                        <a href="{{ route('admin.techniciens') }}" class="side-nav-link fw-bold">
                             <i class="uil-constructor"></i>
                             <span> Techniciens </span>
                         </a>
                     </li>
 
                     <li class="side-nav-item">
-                        <a href="#" class="side-nav-link fw-bold">
+                        <a href="{{ route('admin.cities') }}" class="side-nav-link fw-bold">
                             <i class="uil-map-pin-alt"></i>
                             <span> Villes </span>
                         </a>
@@ -245,7 +245,7 @@
                     </li>
 
                     <li class="side-nav-item">
-                        <a href="apps-chat.html" class="side-nav-link fw-bold">
+                        <a href="{{ route('admin.stock') }}" class="side-nav-link fw-bold">
                             <i class="uil-box"></i>
                             <span> Stock </span>
                         </a>
@@ -255,11 +255,8 @@
 
                 <div class="help-box text-white text-center m-2">
                     <div class="d-grid">
-                        <button type="button" class="btn btn-sm btn-primary mb-1" data-bs-toggle="modal"
-                            data-bs-target="#standard-modal">Importer B2C</button>
-                        <button type="button" class="btn btn-sm btn-primary mb-1">Importer B2B</button>
-                        <button type="button" class="btn btn-sm btn-primary mb-1">Importer PIPE</button>
-                        <button type="button" class="btn btn-sm btn-success mb-1">Importer listes de
+                        <button type="button" class="btn btn-sm btn-primary mb-1 shadow-none">Importer PIPE</button>
+                        <button type="button" class="btn btn-sm btn-success mb-1 shadow-none">Importer listes de
                             Routeurs</button>
                     </div>
                 </div>
@@ -296,6 +293,7 @@
             $('#edit-modal').modal('hide');
             $('#importation-modal').modal('hide');
             $('#add-modal').modal('hide');
+            $('#set-status-modal').modal('hide');
         });
         window.addEventListener('contentChanged', e => {
             const Toast = Swal.mixin({

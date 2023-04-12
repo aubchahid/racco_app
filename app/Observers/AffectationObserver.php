@@ -31,6 +31,12 @@ class AffectationObserver
             'technicien_id' => $affectation->technicien_id,
             'status' => $affectation->status,
         ]);
+
+        if ($affectation->status == 'Terminé') {
+            Client::where('id',$affectation->client_id)->update([
+                'status' => 'Déclaré',
+            ]);
+        }
     }
 
     public function deleted(Affectation $affectation)

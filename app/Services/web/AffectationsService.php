@@ -12,7 +12,7 @@ use Carbon\Carbon;
 class AffectationsService
 {
 
-    public static function getAffectations($client_name, $client_sip, $client_status, $technicien, $start_date, $end_date)
+    static public function getAffectations($client_name, $client_sip, $client_status, $technicien, $start_date, $end_date)
     {
         return Affectation::with(['client','client.city', 'technicien.user'])
             ->where(function ($q) use ($client_name) {

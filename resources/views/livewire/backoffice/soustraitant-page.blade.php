@@ -21,7 +21,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-xl-6">
+                        <div class="col-xl-12">
                             <div class="form-floating">
                                 <input type="text" class="form-control" id="floatingInput"
                                     placeholder="Ex : Neweracom" wire:model="name" />
@@ -35,38 +35,36 @@
     </div>
 
     <div class="row">
-        @if ($soustraitant->count() > 0)
-            @foreach ($soustraitant as $item)
-                <div class="col-xl-4 col-lg-12">
-                    <a href="{{ route('admin.soustraitant.profile',$item) }}">
-                        <div class="card">
-                            <div class="card-body">
-                                <span class="float-start m-2 me-4">
-                                    <img src="{{ asset('assets/images/logo.png') }}"
-                                        style="height: 100px;width:100px;object-fit:contain" alt="avatar-2"
-                                        class="rounded-circle img-thumbnail">
-                                </span>
-                                <div class="">
-                                    <h4 class="mt-1 mb-1 fw-bold text-dark">{{ $item->name }}</h4>
-                                    <p class="font-13 text-dark">ID : {{ $item->uuid }}</p>
+        @forelse ($soustraitant as $item)
+            <div class="col-xl-4 col-lg-12">
+                <a href="{{ route('admin.soustraitant.profile', $item) }}">
+                    <div class="card">
+                        <div class="card-body">
+                            <span class="float-start m-2 me-4">
+                                <img src="{{ asset('assets/images/logo.png') }}"
+                                    style="height: 100px;width:100px;object-fit:contain" alt="avatar-2"
+                                    class="rounded-circle img-thumbnail">
+                            </span>
+                            <div class="">
+                                <h4 class="mt-1 mb-1 fw-bold text-dark">{{ $item->name }}</h4>
+                                <p class="font-13 text-dark">ID : {{ $item->uuid }}</p>
 
-                                    <ul class="mb-0 list-inline">
-                                        <li class="list-inline-item me-3">
-                                            <h5 class="mb-1">{{ $item->techniciens_count }}</h5>
-                                            <p class="mb-0 font-13 text-dark fw-bold">Technicien</p>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <h5 class="mb-1">{{ $item->clients_count }}</h5>
-                                            <p class="mb-0 font-13 text-dark fw-bold">Clients</p>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <ul class="mb-0 list-inline">
+                                    <li class="list-inline-item me-3">
+                                        <h5 class="mb-1">{{ $item->techniciens_count }}</h5>
+                                        <p class="mb-0 font-13 text-dark fw-bold">Technicien</p>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <h5 class="mb-1">{{ $item->clients_count }}</h5>
+                                        <p class="mb-0 font-13 text-dark fw-bold">Clients</p>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                    </a>
-                </div>
-            @endforeach
-        @else
+                    </div>
+                </a>
+            </div>
+        @empty
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
@@ -79,7 +77,7 @@
                     </div>
                 </div>
             </div>
-        @endif
+        @endforelse
     </div>
 
     <div id="add-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="importation-modalLabel"

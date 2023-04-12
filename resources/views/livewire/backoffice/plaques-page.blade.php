@@ -69,7 +69,6 @@
                                 <th>Ville</th>
                                 <th>Client</th>
                                 <th>Technicien</th>
-                                <th>Statut</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -85,10 +84,6 @@
                                         <td>{{ $item->city->name }}</td>
                                         <td>{{ $item->clients->count() }} Clients</td>
                                         <td>{{ $item->techniciens->count() }} Technicien</td>
-                                        <td class="fw-bold">
-                                            <span
-                                                class="badge badge-{{ $item->status ? 'success' : 'danger' }}-lighten">{{ $item->status ? 'Actif' : 'Inactif' }}</span>
-                                        </td>
                                         <td class="text-center">
                                             <a
                                                 class="btn btn-primary btn-sm shadow-none"href="{{ route('admin.plaques.profile', $item) }}"><i

@@ -4,11 +4,17 @@ namespace App\Http\Livewire\Backoffice;
 
 use App\Models\Soustraitant;
 use App\Services\web\SoustraitantService;
+use Carbon\Carbon;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ProfileSoustraitantPage extends Component
 {
-    public $soustraitant,$start_date,$end_date,$data;
+
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
+    public $soustraitant,$start_date,$end_date,$clients;
 
     public function mount(Soustraitant $soustraitant)
     {
@@ -22,12 +28,12 @@ class ProfileSoustraitantPage extends Component
             'end_date' => 'required',
         ]);
 
-        $this->data = SoustraitantService::KpisSoustraitant([$this->start_date,$this->end_date]);
+        $this->clients = SoustraitantService::returnClientSoustraitant([Carbon::parse($this->start_date)->startOfDay(),Carbon::parse($this->end_date)->endOfDay()],$this->soustraitant->id);
     }
 
     public function render()
     {
-        $this->data = SoustraitantService::KpisSoustraitant([$this->start_date. ' 00:00:00',$this->end_date.' 23:59:59']);
+        $this->clients = SoustraitantService::returnClientSoustraitant([Carbon::parse($this->start_date)->startOfDay(),Carbon::parse($this->end_date)->endOfDay()],$this->soustraitant->id);
         return view('livewire.backoffice.profile-soustraitant-page')->layout('layouts.app', [
             'title' => $this->soustraitant->name,
         ]);

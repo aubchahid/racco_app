@@ -8,13 +8,18 @@ use App\Http\Livewire\Auth\LoginPage;
 use App\Http\Livewire\Auth\RecoverPasswordPage;
 use App\Http\Livewire\Backoffice\AffectationsMapPage;
 use App\Http\Livewire\Backoffice\AffectationsPage;
+use App\Http\Livewire\Backoffice\CitiesPage;
 use App\Http\Livewire\Backoffice\ClientsPage;
 use App\Http\Livewire\Backoffice\Dashboard;
 use App\Http\Livewire\Backoffice\PlaquesPage;
+use App\Http\Livewire\Backoffice\ProfileCityPage;
 use App\Http\Livewire\Backoffice\ProfileClientPage;
 use App\Http\Livewire\Backoffice\ProfilePlaquePage;
 use App\Http\Livewire\Backoffice\ProfileSoustraitantPage;
+use App\Http\Livewire\Backoffice\RouteursPage;
 use App\Http\Livewire\Backoffice\SoustraitantPage;
+use App\Http\Livewire\Backoffice\StockPage;
+use App\Http\Livewire\Backoffice\TechnicienPage;
 use App\Models\Affectation;
 use App\Models\Blocage;
 use App\Models\City;
@@ -54,6 +59,11 @@ Route::middleware(['auth', 'role:admin'])->name('admin.')->prefix('admin')->grou
     Route::any('/plaques/{plaque}',ProfilePlaquePage::class)->name('plaques.profile');
     Route::any('/soustraitant',SoustraitantPage::class)->name('soustraitant');
     Route::any('/soustraitant/profile/{soustraitant}',ProfileSoustraitantPage::class)->name('soustraitant.profile');
+    Route::any('/cities',CitiesPage::class)->name('cities');
+    Route::any('/cities/{city}',ProfileCityPage::class)->name('cities.profile');
+    Route::any('/routeurs',RouteursPage::class)->name('routeurs');
+    Route::any('/techniciens',TechnicienPage::class)->name('techniciens');
+    Route::any('/stock',StockPage::class)->name('stock');
 });
 
 
@@ -81,9 +91,9 @@ Route::any('/create-soustraitant', function () {
 
 
 Route::any('/create', function (Faker $faker) {
-    for ($i = 0; $i < 74; $i++) {
+    for ($i = 0; $i < 120; $i++) {
 
-        $p = rand(1, 109);
+        $p = rand(2, 109);
         Client::create([
             'uuid' => Str::uuid(),
             'type' => 'B2C',
@@ -96,6 +106,7 @@ Route::any('/create', function (Faker $faker) {
             'phone_no' => $faker->phoneNumber,
             'debit' => '50MB',
             'sip' => '0547' . rand(885945, 985945),
+            'created_at' => now()->subMonth(rand(4,9)),
             'created_by' => Auth::user()->id,
         ]);
     }

@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Backoffice;
 use App\Exports\ClientsExport;
 use App\Imports\ClientsImport;
 use App\Models\Affectation;
+use App\Models\AffectationHistory;
 use App\Models\Client;
 use App\Models\Technicien;
 use App\Services\web\ClientsService;
@@ -21,19 +22,10 @@ class ClientsPage extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $client_name = '', $client_sip = '', $client_status = '', $technicien = '', $start_date = '', $end_date = '';
-    public $client_id = '', $deleteList = [];
-    public $fullname, $address, $debit, $sip, $phone,$file;
-    public $technicien_affectation, $cause;
+    public $client_id = '', $selectedItems = [];
+    public $fullname, $address, $debit, $sip, $phone, $file;
+    public $technicien_affectation, $cause, $resetPage = false;
 
-    public function updatingSearch()
-    {
-        $this->resetPage();
-    }
-
-    public function mount()
-    {
-        $this->resetPage();
-    }
 
     public function export()
     {
@@ -50,9 +42,8 @@ class ClientsPage extends Component
 
     public function deleteAll()
     {
-        foreach ($this->deleteList as $item) {
-            Client::find($item)->delete();
-        }
+        Client::whereIn('id',$this->selectedItems)->delete();
+        $this->selectedItems = [];
         $this->emit('success');
         $this->dispatchBrowserEvent('contentChanged', ['item' => 'Clients supprimés avec succès.']);
     }
@@ -74,27 +65,36 @@ class ClientsPage extends Component
             'technicien_affectation' => 'required',
         ]);
 
-        foreach ($this->deleteList as $item) {
-            Affectation::create([
+        foreach ($this->selectedItems as $item) {
+            $affectation = Affectation::create([
                 'uuid' => Str::uuid(),
                 'client_id' => $item,
                 'technicien_id' => $this->technicien_affectation,
                 'status' => 'En cours',
             ]);
+
+            AffectationHistory::create([
+                'affectation_id' => $affectation->id,
+                'technicien_id' => $affectation->technicien_id,
+                'status' => $affectation->status,
+                'cause' => $this->cause,
+            ]);
         }
-        $this->deleteList = [];
+        $this->selectedItems = [];
+        $this->technicien_affectation = null;
         $this->emit('success');
         $this->dispatchBrowserEvent('contentChanged', ['item' => 'Client affecté avec succès.']);
     }
 
-    public function edit(){
+    public function edit()
+    {
         $this->validate([
             'fullname' => 'required',
             'address' => 'required',
             'debit' => 'required',
             'sip' => 'required',
             'phone' => 'required',
-        ],[
+        ], [
             'fullname.required' => 'Le nom est obligatoire',
             'address.required' => 'L\'adresse est obligatoire',
             'debit.required' => 'Le débit est obligatoire',
@@ -114,10 +114,11 @@ class ClientsPage extends Component
         $this->dispatchBrowserEvent('contentChanged', ['item' => 'Client modifié avec succès.']);
     }
 
-    public function importManual(){
+    public function importManual()
+    {
         $this->validate([
             'file' => 'required',
-        ],[
+        ], [
             'file.required' => 'Le fichier est obligatoire',
         ]);
 
@@ -129,7 +130,7 @@ class ClientsPage extends Component
 
     public function render()
     {
-        $clients = ClientsService::getClients($this->client_name, $this->client_sip, $this->client_status, $this->technicien, $this->start_date, $this->end_date)->paginate(25);
+        $clients = ClientsService::getClients($this->client_name, $this->client_sip, $this->client_status, $this->technicien, $this->start_date, $this->end_date)->paginate(15);
         $data = ClientsService::getClientsStatistic();
         $techniciens = Technicien::with('user')->get();
 
