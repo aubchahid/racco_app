@@ -17,6 +17,8 @@ class ClientsImport implements ToModel, WithStartRow
 {
     use Importable;
 
+    private static $numImported = 0;
+
     public function startRow(): int
     {
         return 2;
@@ -25,14 +27,15 @@ class ClientsImport implements ToModel, WithStartRow
     public function model(array $row)
     {
         $data = ClientsService::importsClients($row[2]);
-
+        //$gps = ClientsService::mapSurvey($data);
         Client::create([
             'uuid' => Str::uuid(),
+            'client_id' => $data['login_internet'],
             'type' => 'B2C',
             'name' => $data['name'],
             'address' => $data['address'],
-            'lat' => $data['lat'],
-            'lng' => $data['lng'],
+            'lat' => 0,//$gps[0],
+            'lng' => 0,//$gps[1],
             'city_id' => $data['city'],
             'plaque_id' => $data['plaque'],
             'debit' => $data['debit'] == 12 ? 20 : $data['debit'],
@@ -41,5 +44,12 @@ class ClientsImport implements ToModel, WithStartRow
             'status' => ClientStatusEnum::NEW,
             'created_by' => Auth::user()->id,
         ]);
+
+        self::$numImported++;
+    }
+
+    public static function getNumImported()
+    {
+        return self::$numImported;
     }
 }

@@ -24,6 +24,7 @@ class ClientsExport implements WithMultipleSheets
     public function sheets(): array
     {
         $sheets = [
+            'CANVA_'.now() => new CanvaExport(),
             'Tous les clients' => new ClientsFiltrage($this->client_name, $this->client_sip, $this->client_status, $this->technicien, $this->start_date, $this->end_date),
             'Clients bloqués' => new ClientsFiltrage($this->client_name, $this->client_sip, 'Blocage', $this->technicien, $this->start_date, $this->end_date),
             'Nouveaux clients' => new ClientsFiltrage($this->client_name, $this->client_sip, 'Saisie', $this->technicien, $this->start_date, $this->end_date),
@@ -31,5 +32,5 @@ class ClientsExport implements WithMultipleSheets
 
         return $sheets;
     }
-   
+
 }

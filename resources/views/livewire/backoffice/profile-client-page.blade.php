@@ -54,6 +54,13 @@
                         </div>
                     </div>
                     <div class="row mb-2 align-middle">
+                        <label for="inputEmail3" class="col-5 col-form-label fw-bold">Login internet</label>
+                        <div class="col-7">
+                            <input type="text" readonly class="form-control-plaintext" id="example-static"
+                                value="{{ $client->client_id }}">
+                        </div>
+                    </div>
+                    <div class="row mb-2 align-middle">
                         <label for="inputEmail3" class="col-5 col-form-label fw-bold">Nom du client</label>
                         <div class="col-7">
                             <input type="text" readonly class="form-control-plaintext" id="example-static"
@@ -131,7 +138,7 @@
                 <div class="card-body">
                     <h4 class="header-title bg-light p-2 mt-0 mb-3"> <i class="uil-chart me-2"></i> Historique des
                         affectations</h4>
-                    <div class="timeline-alt pb-0">
+                    <div class="timeline-alt">
                         @forelse ($client->affectationsHistorique as $item)
                             <div class="timeline-item">
                                 <i
@@ -154,7 +161,6 @@
                                 <h4>Il n'y a pas encore d'affectations.</h4>
                             </div>
                         @endforelse
-
                     </div>
                     <h4 class="header-title bg-light p-2 mt-5 mb-3"> <i class="uil-file me-2"></i> Rapports</h4>
                     @for ($i = 0; $i < 3; $i++)

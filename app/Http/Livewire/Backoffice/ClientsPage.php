@@ -63,21 +63,21 @@ class ClientsPage extends Component
     {
         $this->validate([
             'technicien_affectation' => 'required',
+            'selectedItems' => 'required',
+        ], [
+            'technicien_affectation.required' => 'Veuillez choisir un technicien pour continuer.',
+            'selectedItems.required' => 'Veuillez choisir au moins un client pour continuer.',
         ]);
 
         foreach ($this->selectedItems as $item) {
-            $affectation = Affectation::create([
+           $affectation = Affectation::updateOrCreate([
+                'client_id' => $item,
+                'status' => 'En cours',
+            ], [
                 'uuid' => Str::uuid(),
                 'client_id' => $item,
                 'technicien_id' => $this->technicien_affectation,
                 'status' => 'En cours',
-            ]);
-
-            AffectationHistory::create([
-                'affectation_id' => $affectation->id,
-                'technicien_id' => $affectation->technicien_id,
-                'status' => $affectation->status,
-                'cause' => $this->cause,
             ]);
         }
         $this->selectedItems = [];
@@ -125,7 +125,7 @@ class ClientsPage extends Component
         Excel::import(new ClientsImport, $this->file);
         $this->file = null;
         $this->emit('success');
-        $this->dispatchBrowserEvent('contentChanged', ['item' => 'Clients importés avec succès.']);
+        $this->dispatchBrowserEvent('contentChanged', ['item' => ClientsImport::getNumImported().' Clients importés avec succès.']);
     }
 
     public function render()

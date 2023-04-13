@@ -159,10 +159,8 @@
                             @forelse ($clients as $client)
                                 <tr class="align-middle">
                                     <td class="text-center">
-                                        @if ($client->status === 'Saisie')
-                                            <input type="checkbox" class="form-check-input"
-                                                value="{{ $client->id }}" wire:model="selectedItems">
-                                        @endif
+                                        <input type="checkbox" class="form-check-input" value="{{ $client->id }}"
+                                            wire:model="selectedItems">
                                     </td>
                                     <td class="text-center">{{ $client->sip }}</td>
                                     <td>
@@ -219,8 +217,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="example-fileinput" class="form-label">Veuillez utiliser le modèle
-                                ci-dessous.</label>
+                            <label for="example-fileinput" class="form-label"></label>
                             <input type="file" id="example-fileinput" class="form-control" wire:model="file"
                                 required>
                         </div>
@@ -233,7 +230,8 @@
                             <span wire:target="file" wire:loading.remove>
                                 <span wire:loading.remove wire:target="importManual">Import</span>
                                 <span wire:loading wire:target="importManual">
-                                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true">
+                                    <span class="spinner-border spinner-border-sm me-2" role="status"
+                                        aria-hidden="true">
                                     </span>
                                     Chargement...
                                 </span>
@@ -406,6 +404,20 @@
                             aria-hidden="true"></button>
                     </div>
                     <div class="modal-body">
+                        @error('technicien_affectation')
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>{{ $message }}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @enderror
+                        @error('selectedItems')
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>{{ $message }}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @enderror
                         <div class="form-floating">
                             <select class="form-select" id="floatingSelect"
                                 aria-label="Floating label select example" wire:model="technicien_affectation">
@@ -415,10 +427,6 @@
                                 @endforeach
                             </select>
                             <label for="floatingSelect">Technicien </label>
-                        </div>
-                        <div class="form-floating mt-3">
-                            <textarea class="form-control" wire:model="cause" id="floatingTextarea" style="height: 100px;"></textarea>
-                            <label for="floatingTextarea">Cause d'affectation </label>
                         </div>
                     </div>
                     <div class="modal-footer">

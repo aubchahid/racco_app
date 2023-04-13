@@ -13,6 +13,7 @@ class Client extends Model
 
     protected $fillable = [
         'uuid',
+        'client_id',
         'type',
         'name',
         'address',
@@ -80,8 +81,8 @@ class Client extends Model
             case 'Affecté':
                 $data = 'warning';
                 break;
-            case 'Declare':
-                $data = 'info';
+            case 'Déclaré':
+                $data = 'danger';
                 break;
             case 'Validée':
                 $data = 'success';

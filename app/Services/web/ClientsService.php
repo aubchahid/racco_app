@@ -57,12 +57,14 @@ class ClientsService
         preg_match('/Contact Client\s*:\s*(\d*)/', $content, $client_phone);
         preg_match('/CODE\s*(.{7})/', $content, $plaque);
         preg_match('/CODE\s*(.{2})/', $content, $city);
+        preg_match('/Login internet:\s*(\d*)/', $content, $client_login);
 
 
         $plaque = Plaque::with('city')->where('code_plaque', $plaque[1])->first();
 
         return [
             'name' => $client_fullname[1],
+            'login_internet' => $client_login[1] ?? '',
             'address' => $client_address[1],
             'debit' => $client_debit[1],
             'lat' => 0,
@@ -85,120 +87,24 @@ class ClientsService
         foreach ($unseenMessages as $message) {
             $content = $message->getHTMLBody(true); // ** Return the message body as HTML [CLIENT]
             $client = self::importsClients($content); // ** Import the client
-            // TODO : Add the map survey Here
+            $gps = self::mapSurvey($client);
+            Client::updateOrCreate([
+                'name' => $client['name'],
+                'address' => $client['address'],
+                'debit' => $client['debit'],
+                'lat' => $gps[0],
+                'lng' => $gps[1],
+                'sip' => $client['sip'],
+                'plaque' => $client['plaque'],
+                'city' => $client['city'],
+                'phone' => $client['phone'],
+            ]);
             $message->moveToFolder('Archive');
         }
     }
 
-    static public function mapSurvey($new_clients)
-    {
-        $client = new \GuzzleHttp\Client();
-        $response = $client->get('https://mapsurvey.orange.ma/login');
-        $getcsrftoken = $response->getBody()->getContents();
-        $headerSetCookies = $response->getHeader('Set-Cookie');
 
-        foreach ($headerSetCookies as $headerSetCookie) {
-            $cookie = SetCookie::fromString($headerSetCookie);
-            $cookie->setDomain('mapsurvey.orange.ma');
-            $cookie[] = $cookie;
-        }
-
-        $cookieJar = new CookieJar(false, $cookie);
-        $dom = new DOMDocument();
-        $dom->loadHTML($getcsrftoken, LIBXML_NOERROR);
-        $xpath = new \DOMXPath($dom);
-        $csrf = $xpath->query('//meta[@name="csrf-token"]')->item(0)->attributes->getNamedItem('value')->nodeValue;
-
-        $response = $client->post(
-            'https://mapsurvey.orange.ma/login',
-            [
-                'form_params' => [
-                    '_username' => 'rn08425',
-                    '_password' => 'Orange_2019',
-                    '_csrf_token' => $csrf,
-                ],
-                'cookies' => $cookieJar,
-            ]
-        );
-
-        foreach ($new_clients as $item) {
-            $address = $item->client->address;
-            $response_address = $client->get(
-                'https://mapsurvey.orange.ma/ftth/search/address?input_search=' . $address,
-                [
-                    'cookies' => $cookieJar,
-                    'headers' => [
-                        'X-Requested-With' => 'XMLHttpRequest',
-                    ],
-                ],
-            );
-            $body = $response_address->getBody()->getContents();
-            if (!empty($body)) {
-                $dom = new DOMDocument();
-                $dom->loadHTML($body, LIBXML_NOERROR);
-                $xpath = new \DOMXPath($dom);
-                $contents = $xpath->query('//li');
-                foreach ($contents as $item) {
-                    $gps = json_decode($item->attributes->getNamedItem('value')->nodeValue);
-                }
-            }
-        }
-    }
-
-    static public function atestMapSurvey($newClient)
-    {
-        $client = new \GuzzleHttp\Client();
-        $response = $client->get('https://mapsurvey.orange.ma/login');
-        $getcsrftoken = $response->getBody()->getContents();
-        $headerSetCookies = $response->getHeader('Set-Cookie');
-        $cookie = [];
-
-        foreach ($headerSetCookies as $headerSetCookie) {
-            $cookie = SetCookie::fromString($headerSetCookie);
-            $cookie->setDomain('mapsurvey.orange.ma');
-            $cookie[] = $cookie;
-        }
-
-        $cookieJar = new CookieJar(false, $cookie);
-        $dom = new DOMDocument();
-        $dom->loadHTML($getcsrftoken, LIBXML_NOERROR);
-        $xpath = new \DOMXPath($dom);
-        $csrf = $xpath->query('//meta[@name="csrf-token"]')->item(0)->attributes->getNamedItem('value')->nodeValue;
-
-        $response = $client->post(
-            'https://mapsurvey.orange.ma/login',
-            [
-                'form_params' => [
-                    '_username' => 'rn08425',
-                    '_password' => 'Orange_2019',
-                    '_csrf_token' => $csrf,
-                ],
-                'cookies' => $cookieJar,
-            ]
-        );
-        $response_address = $client->get(
-            'https://mapsurvey.orange.ma/ftth/search/address?input_search=' . $newClient->address,
-            [
-                'cookies' => $cookieJar,
-                'headers' => [
-                    'X-Requested-With' => 'XMLHttpRequest',
-                ],
-            ],
-        );
-        $body = $response_address->getBody()->getContents();
-        if (!empty($body)) {
-            $dom = new DOMDocument();
-            $dom->loadHTML($body, LIBXML_NOERROR);
-            $xpath = new \DOMXPath($dom);
-            $contents = $xpath->query('//li');
-            foreach ($contents as $item) {
-                $gps = json_decode($item->attributes->getNamedItem('value')->nodeValue);
-            }
-        }
-        return $gps;
-    }
-
-    static public function testMapSurvey($newClient)
+    static public function mapSurvey($newClient)
     {
         try {
             // Create HTTP client object
@@ -221,7 +127,7 @@ class ClientsService
             $dom = new DOMDocument();
             $dom->loadHTML($getcsrftoken, LIBXML_NOERROR);
             $xpath = new \DOMXPath($dom);
-            $csrf = $xpath->query('//meta[@name="csrf-token"]')->item(0)->attributes->getNamedItem('value')->nodeValue;
+            $csrf = $xpath->query('//input[@name="_csrf_token"]')->item(0)->attributes->getNamedItem('value')->nodeValue;
 
             // Send HTTP POST request to the login page with the username, password, and CSRF token
             $response = $client->post(
@@ -238,7 +144,7 @@ class ClientsService
 
             // Send HTTP GET request to get the GPS coordinates of the given address
             $response_address = $client->get(
-                'https://mapsurvey.orange.ma/ftth/search/address?input_search=' . $newClient->address,
+                'https://mapsurvey.orange.ma/ftth/serach/address?input_search=' . $newClient->address,
                 [
                     'cookies' => $cookieJar,
                     'headers' => [
@@ -256,14 +162,13 @@ class ClientsService
                 $xpath = new \DOMXPath($dom);
                 $contents = $xpath->query('//li');
                 foreach ($contents as $item) {
-                    $gps = json_decode($item->attributes->getNamedItem('value')->value);
+                    $gps = json_decode($item->attributes->getNamedItem('value')->nodeValue);
                 }
             }
-
-            dd(json_encode($gps));
+            return $gps;
         } catch (Exception $e) {
             // Handle exceptions thrown during HTTP requests or DOM manipulation
-            dd($e->getMessage());
+            return $e->getMessage();
         }
     }
 }

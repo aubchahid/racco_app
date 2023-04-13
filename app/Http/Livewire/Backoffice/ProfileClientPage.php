@@ -11,7 +11,7 @@ class ProfileClientPage extends Component
 
     public function mount($client)
     {
-        $this->client = Client::with('affectations.history.technicien.user')->find($client);
+        $this->client = Client::with('affectations.history.technicien')->find($client);
     }
 
     public function render()
